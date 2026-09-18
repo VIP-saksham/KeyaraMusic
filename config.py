@@ -8,12 +8,13 @@ load_dotenv()
 API_ID = int(os.getenv("API_ID"))
 API_HASH = os.getenv("API_HASH")
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-OWNER_ID = int(os.getenv("OWNER_ID", None))
+OWNER_ID = int(os.getenv("OWNER_ID") or 0)
 OWNER_USERNAME = os.getenv("OWNER_USERNAME", "WTF_WhyMeeh")
 BOT_USERNAME = os.getenv("BOT_USERNAME", "KiyaraMusicBot")
 
 MONGO_DB_URI = os.getenv("MONGO_DB_URI", None)
-LOG_GROUP_ID = int(os.getenv("LOG_GROUP_ID", None))
+# Logging is optional; use 0 when no log group is configured.
+LOG_GROUP_ID = int(os.getenv("LOG_GROUP_ID") or 0)
 HEROKU_APP_NAME = os.getenv("HEROKU_APP_NAME")
 HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")
 
