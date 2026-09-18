@@ -19,7 +19,7 @@ psutil
 py-tgcalls==1.2.9
 ntgcalls==1.3.4
 pykeyboard
-kurigram==2.1.35
+kurigram==2.2.26
 python-dotenv
 pyyaml
 requests
