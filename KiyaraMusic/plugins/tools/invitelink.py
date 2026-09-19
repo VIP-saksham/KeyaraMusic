@@ -26,7 +26,7 @@ from pyrogram.errors import FloodWait
 from pyrogram.types import Message
 from KiyaraMusic import app
 from KiyaraMusic.misc import SUDOERS
-from KiyaraMusic.utils.decorators.admins import adminsOnly
+from KiyaraMusic.utils.permissions import adminsOnly
 from pyrogram.enums import ChatMemberStatus
 import asyncio
 

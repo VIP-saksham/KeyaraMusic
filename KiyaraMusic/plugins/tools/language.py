@@ -20,7 +20,6 @@
 # Email: badboy809075@gmail.com
 
 
-from pykeyboard import InlineKeyboard
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, Message
 
@@ -32,24 +31,24 @@ from strings import get_string, languages_present
 
 
 def lanuages_keyboard(_):
-    keyboard = InlineKeyboard(row_width=2)
-    keyboard.add(
-        *[
-            (
-                InlineKeyboardButton(
-                    text=languages_present[i],
-                    callback_data=f"languages:{i}",
-                )
-            )
-            for i in languages_present
-        ]
-    )
-    keyboard.row(
+    lang_buttons = [
         InlineKeyboardButton(
-            text=_["BACK_BUTTON"],
-            callback_data=f"settingsback_helper",
-        ),
-        InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data=f"close"),
+            text=languages_present[i],
+            callback_data=f"languages:{i}",
+        )
+        for i in languages_present
+    ]
+    keyboard = [
+        lang_buttons[i : i + 2] for i in range(0, len(lang_buttons), 2)
+    ]
+    keyboard.append(
+        [
+            InlineKeyboardButton(
+                text=_["BACK_BUTTON"],
+                callback_data=f"settingsback_helper",
+            ),
+            InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data=f"close"),
+        ]
     )
     return keyboard
 

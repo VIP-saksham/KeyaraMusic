@@ -4,14 +4,14 @@
 import asyncio
 from datetime import datetime
 from pyrogram.enums import ChatType
-from pytgcalls.exceptions import GroupCallNotFound
+from pytgcalls.exceptions import NotInCallError
 import logging
 
 import config
 from KiyaraMusic import app
 from KiyaraMusic.misc import db
 from KiyaraMusic.core.call import Nand, autoend, counter
-from KiyaraMusic.utils.database import get_client, set_loop, is_active_chat, is_autoend, is_autoleave
+from KiyaraMusic.utils.database import get_client, set_loop, is_active_chat, is_autoend, is_autoleave, group_assistant
 
 
 async def auto_leave():
@@ -68,8 +68,9 @@ async def auto_end():
             
             for chat_id in chatss:
                 try:
-                    users = len(await Nand.call_listeners(chat_id))
-                except GroupCallNotFound:
+                    assistant = await group_assistant(Nand, chat_id)
+                    users = len(await assistant.get_participants(chat_id))
+                except NotInCallError:
                     users = 1
                     nocall = True
                 except Exception:
