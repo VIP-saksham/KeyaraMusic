@@ -7,6 +7,7 @@ from py_yt import VideosSearch
 import config
 from KiyaraMusic import app
 from KiyaraMusic.misc import _boot_
+from KiyaraMusic.utils.start_poster import render_start_poster
 from KiyaraMusic.plugins.sudo.sudoers import sudoers_list
 from KiyaraMusic.utils.database import (
     add_served_chat,
@@ -22,6 +23,12 @@ from KiyaraMusic.utils.formatters import get_readable_time
 from KiyaraMusic.utils.inline import help_pannel_page1, private_panel, start_panel
 from config import BANNED_USERS
 from strings import get_string
+
+
+async def _post_start(target, **kw):
+    """iOS-style start poster bhejo; remote image par fallback."""
+    path = render_start_poster(**kw)
+    return await target(path) if path else await target(config.START_IMG_URL)
 
 
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
@@ -100,9 +107,18 @@ async def start_pm(client, message: Message, _):
         if name == "start":
             out = private_panel(_)
             UP, CPU, RAM, DISK = await bot_sys_stats()
+            photo = await _post_start(
+                target=message.reply_photo,
+                title=message.from_user.first_name,
+                subtitle="Kiyara Music me swagat hai",
+                chips=[f"Uptime {UP}", f"RAM {RAM}", f"CPU {CPU}"],
+                footer="Gaana chalane ke liye /play bhejo",
+                avatar_bytes=await message.download(in_memory=True),
+                seed=str(message.from_user.id),
+            )
             try:
                 await message.reply_photo(
-                    photo=config.START_IMG_URL,
+                    photo=photo,
                     caption=_["start_2"].format(message.from_user.mention, app.mention, UP, DISK, CPU, RAM),
                     reply_markup=InlineKeyboardMarkup(out),
                 )
@@ -120,9 +136,18 @@ async def start_pm(client, message: Message, _):
     else:
         out = private_panel(_)
         UP, CPU, RAM, DISK = await bot_sys_stats()
+        photo = await _post_start(
+            target=message.reply_photo,
+            title=message.from_user.first_name,
+            subtitle="Kiyara Music me swagat hai",
+            chips=[f"Uptime {UP}", f"RAM {RAM}", f"CPU {CPU}"],
+            footer="Gaana chalane ke liye /play bhejo",
+            avatar_bytes=await message.download(in_memory=True),
+            seed=str(message.from_user.id),
+        )
         try:
             await message.reply_photo(
-                photo=config.START_IMG_URL,
+                photo=photo,
                 caption=_["start_2"].format(message.from_user.mention, app.mention, UP, DISK, CPU, RAM),
                 reply_markup=InlineKeyboardMarkup(out),
             )
@@ -144,9 +169,17 @@ async def start_pm(client, message: Message, _):
 async def start_gp(client, message: Message, _):
     out = start_panel(_)
     uptime = int(time.time() - _boot_)
+    photo = await _post_start(
+        target=message.reply_photo,
+        title=message.chat.title,
+        subtitle="Kiyara Music group me live hai",
+        chips=[f"Uptime {get_readable_time(uptime)}"],
+        footer="Ab yahan /play se gaana bajao",
+        seed=f"grp{message.chat.id}",
+    )
     try:
         await message.reply_photo(
-            photo=config.START_IMG_URL,
+            photo=photo,
             caption=_["start_1"].format(app.mention, get_readable_time(uptime)),
             reply_markup=InlineKeyboardMarkup(out),
         )
@@ -186,9 +219,17 @@ async def welcome(client, message: Message):
                     return await app.leave_chat(message.chat.id)
 
                 out = start_panel(_)
+                photo = await _post_start(
+                    target=message.reply_photo,
+                    title=message.chat.title,
+                    subtitle=f"{message.from_user.first_name} ne mujhe add kiya",
+                    chips=["Swagat hai"],
+                    footer="Ab yahan /play se gaana bajao",
+                    seed=f"grp{message.chat.id}",
+                )
                 try:
                     await message.reply_photo(
-                        photo=config.START_IMG_URL,
+                        photo=photo,
                         caption=_["start_3"].format(
                             message.from_user.first_name,
                             app.mention,
