@@ -1,125 +1,67 @@
-# Copyright (c) 2025 Nand Yaduwanshi <NoxxOP>
-# Location: Supaul, Bihar
+# KeyaraMusic — log group watcher
 #
-# All rights reserved.
+# Log group me sirf bot ki zaroori events:
+#   - bot kisi naye group me add hua (branded start art ke saath)
+#   - bot kisi group se remove hua
 #
-# This code is the intellectual property of Nand Yaduwanshi.
-# You are not allowed to copy, modify, redistribute, or use this
-# code for commercial or personal projects without explicit permission.
-#
-# Allowed:
-# - Forking for personal learning
-# - Submitting improvements via pull requests
-#
-# Not Allowed:
-# - Claiming this code as your own
-# - Re-uploading without credit or permission
-# - Selling or using commercially
-#
-# Contact for permissions:
-# Email: badboy809075@gmail.com
+# Helpers ka auto-join/leave aur faltu welcome spam yahan se hata diya gaya hai.
 
-
-import random
 from pyrogram import filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from config import LOG_GROUP_ID
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from config import LOG_GROUP_ID, START_IMG_URL
 from KeyaraMusic import app
-from KeyaraMusic.utils.database import add_served_chat, get_assistant
+from KeyaraMusic.utils.database import add_served_chat, delete_served_chat
 
-welcome_photo = "https://files.catbox.moe/ajobub.jpg"
 
 @app.on_message(filters.new_chat_members, group=-10)
 async def join_watcher(_, message):
     try:
-        userbot = await get_assistant(message.chat.id)
-        chat = message.chat
         for members in message.new_chat_members:
             if members.id == app.id:
-                count = await app.get_chat_members_count(chat.id)
-                username = message.chat.username if message.chat.username else "Private Group"
-                
-                # Try to get invite link if bot has admin rights
-                invite_link = ""
-                try:
-                    if not message.chat.username:  # Only for private groups
-                        link = await app.export_chat_invite_link(message.chat.id)
-                        invite_link = f"\nGroup Link: {link}" if link else ""
-                except:
-                    pass
-                
-                msg = (
-                    f"Music Bot Added In A New Group\n\n"
-                    f"Chat Name: {message.chat.title}\n"
-                    f"Chat ID: {message.chat.id}\n"
-                    f"Chat Username: @{username}\n"
-                    f"Group Members: {count}\n"
-                    f"Added By: {message.from_user.mention}"
-                    f"{invite_link}"
+                count = await app.get_chat_members_count(message.chat.id)
+                username = (
+                    f"@{message.chat.username}"
+                    if message.chat.username
+                    else "Private Group"
                 )
-                
-                buttons = []
-                if message.from_user.id:
-                    buttons.append([InlineKeyboardButton("Added By", 
-                                    url=f"tg://openmessage?user_id={message.from_user.id}")])
-                
+
+                msg = (
+                    "#NewGroup\n\n"
+                    f"Chat Name: {message.chat.title}\n"
+                    f"Chat ID: <code>{message.chat.id}</code>\n"
+                    f"Chat Username: {username}\n"
+                    f"Group Members: {count}\n"
+                    f"Added By: {message.from_user.mention if message.from_user else 'Unknown'}"
+                )
+
                 await app.send_photo(
                     LOG_GROUP_ID,
-                    photo=welcome_photo,
+                    photo=START_IMG_URL,
                     caption=msg,
-                    reply_markup=InlineKeyboardMarkup(buttons) if buttons else None
                 )
-                
                 await add_served_chat(message.chat.id)
-                if username:
-                    await userbot.join_chat(f"@{username}")
-
     except Exception as e:
         print(f"Error: {e}")
-
-
-from pyrogram.types import Message
-from KeyaraMusic.utils.database import delete_served_chat, get_assistant
-
-photo = [
-    "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
-    "https://telegra.ph/file/3ef2cc0ad2bc548bafb30.jpg",
-    "https://telegra.ph/file/a7d663cd2de689b811729.jpg",
-    "https://telegra.ph/file/6f19dc23847f5b005e922.jpg",
-    "https://telegra.ph/file/2973150dd62fd27a3a6ba.jpg",
-]
 
 
 @app.on_message(filters.left_chat_member, group=-12)
 async def on_left_chat_member(_, message: Message):
     try:
-        userbot = await get_assistant(message.chat.id)
-
         left_chat_member = message.left_chat_member
-        if left_chat_member and left_chat_member.id == (await app.get_me()).id:
+        if left_chat_member and left_chat_member.id == app.id:
             remove_by = (
-                message.from_user.mention if message.from_user else "𝐔ɴᴋɴᴏᴡɴ 𝐔sᴇʀ"
+                message.from_user.mention
+                if message.from_user
+                else "Unknown User"
             )
-            title = message.chat.title
-            username = (
-                f"@{message.chat.username}" if message.chat.username else "𝐏ʀɪᴠᴀᴛᴇ 𝐂ʜᴀᴛ"
+            left = (
+                "#LeftGroup\n\n"
+                f"Chat Title: {message.chat.title}\n"
+                f"Chat ID: <code>{message.chat.id}</code>\n"
+                f"Removed By: {remove_by}\n"
+                f"Bot: @{app.username}"
             )
-            chat_id = message.chat.id
-            left = f"✫ <b><u>#𝐋ᴇғᴛ_𝐆ʀᴏᴜᴘ</u></b> ✫\n\n𝐂ʜᴀᴛ 𝐓ɪᴛʟᴇ : {title}\n\n𝐂ʜᴀᴛ 𝐈ᴅ : {chat_id}\n\n𝐑ᴇᴍᴏᴠᴇᴅ 𝐁ʏ : {remove_by}\n\n𝐁ᴏᴛ : @{app.username}"
-            await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=left)
-            await delete_served_chat(chat_id)
-            await userbot.leave_chat(chat_id)
-    except Exception as e:
+            await app.send_photo(LOG_GROUP_ID, photo=START_IMG_URL, caption=left)
+            await delete_served_chat(message.chat.id)
+    except Exception:
         return
-
-
-# ©️ Copyright Reserved - @NoxxOP  Nand Yaduwanshi
-
-# ===========================================
-# ©️ 2025 Nand Yaduwanshi (aka @NoxxOP)
-# 🔗 GitHub : https://github.com/NoxxOP/KeyaraMusic
-# 📢 Telegram Channel : https://t.me/ShrutiBots
-# ===========================================
-
-
-# ❤️ Love From ShrutiBots 

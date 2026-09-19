@@ -1,15 +1,18 @@
 # KeyaraMusic — "iOS Now Playing" thumbnail engine
 #
 # Design: iOS lock-screen player jaisa feel —
-#   1. Background: artwork khud blur+hoke dark scrim ke saath (iOS glassy look)
+#   1. Background: artwork blur + dark scrim (iOS glassy look)
 #   2. Bada rounded-rect artwork with soft drop shadow
 #   3. Center-aligned bada title (auto-shrink to fit), iOS typography
-#   4. Secondary line: channel • views • duration (iOS secondaryLabel gray)
-#   5. Progress bar + elapsed/total time labels (iOS slider style)
+#   4. Secondary line: channel - views - duration
+#   5. Progress bar + elapsed/total time labels
 #   6. Playback controls row: prev / pause / next glyphs
 #
-# Deterministic: same video-ID = same poster (elapsed position bhi seeded).
-# Sirf stdlib + Pillow — koi extra dependency nahi.
+# Deterministic: same video-ID = same poster.
+# Robustness:
+#   - Stylized titles (small-caps etc.) jo font me missing hain wo readable
+#     ASCII me transliterate hote hain — title hamesha dikhta hai.
+#   - app.username guard: client start nahi hua to fallback text.
 
 import hashlib
 import random
@@ -32,15 +35,58 @@ FONT_REGULAR_PATH = "KeyaraMusic/assets/font2.ttf"
 FONT_BOLD_PATH = "KeyaraMusic/assets/font3.ttf"
 DEFAULT_THUMB = "KeyaraMusic/assets/ShrutiBots.jpg"
 
-LABEL = (255, 255, 255, 250)        # primary text
-SECONDARY = (235, 235, 245, 165)    # iOS secondaryLabel
-TERTIARY = (235, 235, 245, 115)     # iOS tertiaryLabel
-TRACK = (255, 255, 255, 70)         # slider track
-FILL = (255, 255, 255, 235)         # slider fill + knob
+LABEL = (255, 255, 255, 250)
+SECONDARY = (235, 235, 245, 165)
+TERTIARY = (235, 235, 245, 115)
+TRACK = (255, 255, 255, 70)
+FILL = (255, 255, 255, 235)
 
 ART_SIZE = 360
-ART_RADIUS = 82                     # ~22% corner radius, iOS Music style
-MARGIN_X = 180                      # text margins
+ART_RADIUS = 82
+MARGIN_X = 180
+
+_FONT_CACHE = {}
+
+_CHAR_MAP = {
+    "ᴀ": "a", "ʙ": "b", "ᴄ": "c", "ᴅ": "d", "ᴇ": "e", "ꜰ": "f", "ɢ": "g",
+    "ʜ": "h", "ɪ": "i", "ᴊ": "j", "ᴋ": "k", "ʟ": "l", "ᴍ": "m", "ɴ": "n",
+    "ᴏ": "o", "ᴘ": "p", "ǫ": "q", "ʀ": "r", "ꜱ": "s", "ᴛ": "t", "ᴜ": "u",
+    "ᴠ": "v", "ᴡ": "w", "x": "x", "ʏ": "y", "ᴢ": "z",
+    "𝐀": "A", "𝐁": "B", "𝐂": "C", "𝐃": "D", "𝐄": "E", "𝐅": "F", "𝐆": "G",
+    "𝐇": "H", "𝐈": "I", "𝐉": "J", "𝐊": "K", "𝐋": "L", "𝐌": "M", "𝐍": "N",
+    "𝐎": "O", "𝐏": "P", "𝐐": "Q", "𝐑": "R", "𝐒": "S", "𝐓": "T", "𝐔": "U",
+    "𝐕": "V", "𝐖": "W", "𝐗": "X", "𝐘": "Y", "𝐙": "Z",
+    "𝐚": "a", "𝐛": "b", "𝐜": "c", "𝐝": "d", "𝐞": "e", "𝐟": "f", "𝐠": "g",
+    "𝐡": "h", "𝐢": "i", "𝐣": "j", "𝐤": "k", "𝐥": "l", "𝐦": "m", "𝐧": "n",
+    "𝐨": "o", "𝐩": "p", "𝐪": "q", "𝐫": "r", "𝐬": "s", "𝐭": "t", "𝐮": "u",
+    "𝐯": "v", "𝐰": "w", "𝐱": "x", "𝐲": "y", "𝐳": "z",
+    "’": "'", "‘": "'", "“": '"', "”": '"', "–": "-", "—": "-",
+}
+
+
+def _readable(text: str) -> str:
+    """Transliterate stylized chars the font can't show; drop undrawables."""
+    if not text:
+        return text
+    out = []
+    changed = False
+    for ch in text:
+        if ch in _CHAR_MAP:
+            out.append(_CHAR_MAP[ch])
+            changed = True
+        else:
+            out.append(ch)
+    txt = "".join(out)
+    if changed or txt != text:
+        txt = "".join(ch for ch in txt if ch.isascii() or ch in "éèêáàíóúñüöäç")
+    return txt or text
+
+
+def _bot_username() -> str:
+    try:
+        return app.username or "KeyaraMusicBot"
+    except Exception:
+        return "KeyaraMusicBot"
 
 
 def _rng_for(videoid: str) -> random.Random:
@@ -48,7 +94,14 @@ def _rng_for(videoid: str) -> random.Random:
     return random.Random(seed)
 
 
-# ---------- background ----------------------------------------------------
+def _font(path, size):
+    key = (path, size)
+    if key not in _FONT_CACHE:
+        _FONT_CACHE[key] = ImageFont.truetype(path, size)
+    return _FONT_CACHE[key]
+
+
+# ---------- background ------------------------------------------------------
 
 
 def _cover_crop(img, w, h):
@@ -60,7 +113,6 @@ def _cover_crop(img, w, h):
 
 
 def _ios_background(art):
-    """Artwork -> blurred, darkened backdrop (iOS lock-screen vibe)."""
     bg = _cover_crop(art, CANVAS_W, CANVAS_H).filter(ImageFilter.GaussianBlur(42))
     bg = ImageEnhance.Brightness(bg).enhance(0.48)
     bg = ImageEnhance.Color(bg).enhance(0.92)
@@ -68,7 +120,6 @@ def _ios_background(art):
 
 
 def _scrim(canvas):
-    """Vertical readability scrim: top 70 -> mid 40 -> bottom 130 alpha."""
     overlay = Image.new("RGBA", (CANVAS_W, CANVAS_H), (0, 0, 0, 0))
     d = ImageDraw.Draw(overlay)
     stops = [(0.0, 70), (0.45, 40), (1.0, 130)]
@@ -83,7 +134,7 @@ def _scrim(canvas):
     return Image.alpha_composite(canvas, overlay)
 
 
-# ---------- artwork -------------------------------------------------------
+# ---------- artwork ---------------------------------------------------------
 
 
 def _rounded_mask(size, radius):
@@ -94,7 +145,6 @@ def _rounded_mask(size, radius):
 
 def _artwork_with_shadow(canvas, art, x, y):
     size = ART_SIZE
-    # soft drop shadow
     sh = Image.new("RGBA", (size + 120, size + 120), (0, 0, 0, 0))
     ImageDraw.Draw(sh).rounded_rectangle(
         [60, 60, 60 + size, 60 + size], radius=ART_RADIUS, fill=(0, 0, 0, 150)
@@ -107,32 +157,31 @@ def _artwork_with_shadow(canvas, art, x, y):
     canvas.alpha_composite(rounded, (x, y))
 
 
-# ---------- typography ----------------------------------------------------
+# ---------- typography ------------------------------------------------------
 
 
 def _fit_title(draw, text, max_width):
-    """Shrink font, then ellipsize — always fits, always readable."""
     for size in (48, 42, 36, 31):
-        font = ImageFont.truetype(FONT_BOLD_PATH, size)
+        font = _font(FONT_BOLD_PATH, size)
         if draw.textlength(text, font=font) <= max_width:
             return [text], font
-    font = ImageFont.truetype(FONT_BOLD_PATH, 31)
+    font = _font(FONT_BOLD_PATH, 31)
     words = text.split()
-    while words and draw.textlength(" ".join(words) + "…", font=font) > max_width:
+    while words and draw.textlength(" ".join(words) + "...", font=font) > max_width:
         words.pop()
-    return [" ".join(words) + "…"], font
+    return [" ".join(words) + "..."], font
 
 
 def _secondary_line(draw, channel, views, duration_label):
     parts = [channel, views, duration_label]
-    font = ImageFont.truetype(FONT_REGULAR_PATH, 30)
-    text = "  •  ".join(p for p in parts if p)
+    font = _font(FONT_REGULAR_PATH, 30)
+    text = "  -  ".join(p for p in parts if p)
     if draw.textlength(text, font=font) > CANVAS_W - 2 * MARGIN_X - 40:
-        text = "  •  ".join([channel, duration_label])
+        text = "  -  ".join([channel, duration_label])
     return text, font
 
 
-# ---------- time + progress ----------------------------------------------
+# ---------- time + progress -------------------------------------------------
 
 
 def _parse_seconds(duration):
@@ -167,7 +216,7 @@ def _progress_bar(canvas, x0, x1, y, progress):
     d.ellipse([fill_x - 9, y - 5, fill_x + 9, y + 13], fill=FILL)
 
 
-# ---------- controls glyphs ----------------------------------------------
+# ---------- controls glyphs -------------------------------------------------
 
 
 def _glyph_prev(d, cx, cy):
@@ -175,10 +224,7 @@ def _glyph_prev(d, cx, cy):
     x0 = cx - (2 * tw + gap) / 2
     for off in (0, tw + gap):
         bx = x0 + off + tw
-        d.polygon(
-            [(bx, cy), (bx - tw, cy - th / 2), (bx - tw, cy + th / 2)],
-            fill=LABEL,
-        )
+        d.polygon([(bx, cy), (bx - tw, cy - th / 2), (bx - tw, cy + th / 2)], fill=LABEL)
 
 
 def _glyph_next(d, cx, cy):
@@ -186,10 +232,7 @@ def _glyph_next(d, cx, cy):
     x0 = cx - (2 * tw + gap) / 2
     for off in (0, tw + gap):
         bx = x0 + off
-        d.polygon(
-            [(bx, cy), (bx + tw, cy - th / 2), (bx + tw, cy + th / 2)],
-            fill=LABEL,
-        )
+        d.polygon([(bx, cy), (bx + tw, cy - th / 2), (bx + tw, cy + th / 2)], fill=LABEL)
 
 
 def _glyph_pause(d, cx, cy):
@@ -197,13 +240,11 @@ def _glyph_pause(d, cx, cy):
     x0 = cx - (bw + gap / 2)
     for off in (0, bw + gap):
         d.rounded_rectangle(
-            [x0 + off, cy - bh / 2, x0 + off + bw, cy + bh / 2],
-            radius=6,
-            fill=LABEL,
+            [x0 + off, cy - bh / 2, x0 + off + bw, cy + bh / 2], radius=6, fill=LABEL
         )
 
 
-# ---------- main ----------------------------------------------------------
+# ---------- main ------------------------------------------------------------
 
 
 async def gen_thumb(videoid: str):
@@ -250,16 +291,19 @@ async def gen_thumb(videoid: str):
         rng = _rng_for(videoid)
         progress = rng.uniform(0.30, 0.80)
 
+        title = _readable(title)
+        channel = _readable(channel)
+        views = _readable(views)
+
         canvas = _ios_background(base_img)
         canvas = _scrim(canvas)
         draw = ImageDraw.Draw(canvas)
 
         # ----- top mini label (player name) -----
-        top_font = ImageFont.truetype(FONT_REGULAR_PATH, 26)
-        tw = draw.textlength(app.username, font=top_font)
-        draw.text(
-            ((CANVAS_W - tw) / 2, 26), app.username, font=top_font, fill=TERTIARY
-        )
+        top_font = _font(FONT_REGULAR_PATH, 26)
+        brand = _bot_username()
+        tw = draw.textlength(brand, font=top_font)
+        draw.text(((CANVAS_W - tw) / 2, 26), brand, font=top_font, fill=TERTIARY)
 
         # ----- artwork -----
         art_x = (CANVAS_W - ART_SIZE) // 2
@@ -292,11 +336,11 @@ async def gen_thumb(videoid: str):
         draw = ImageDraw.Draw(canvas)
 
         total = _parse_seconds(duration)
-        time_font = ImageFont.truetype(FONT_REGULAR_PATH, 24)
+        time_font = _font(FONT_REGULAR_PATH, 24)
         if total:
             left_t, right_t = _fmt_time(progress * total), _fmt_time(total)
         else:
-            left_t, right_t = "—", "LIVE"
+            left_t, right_t = "-", "LIVE"
         draw.text((bar_x0, bar_y + 18), left_t, font=time_font, fill=SECONDARY)
         rw = draw.textlength(right_t, font=time_font)
         draw.text((bar_x1 - rw, bar_y + 18), right_t, font=time_font, fill=SECONDARY)
