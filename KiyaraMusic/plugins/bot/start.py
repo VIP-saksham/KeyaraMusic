@@ -113,7 +113,6 @@ async def start_pm(client, message: Message, _):
                 subtitle="Kiyara Music me swagat hai",
                 chips=[f"Uptime {UP}", f"RAM {RAM}", f"CPU {CPU}"],
                 footer="Gaana chalane ke liye /play bhejo",
-                avatar_bytes=await message.download(in_memory=True),
                 seed=str(message.from_user.id),
             )
             try:
@@ -142,7 +141,6 @@ async def start_pm(client, message: Message, _):
             subtitle="Kiyara Music me swagat hai",
             chips=[f"Uptime {UP}", f"RAM {RAM}", f"CPU {CPU}"],
             footer="Gaana chalane ke liye /play bhejo",
-            avatar_bytes=await message.download(in_memory=True),
             seed=str(message.from_user.id),
         )
         try:

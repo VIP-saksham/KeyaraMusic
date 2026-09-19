@@ -15,7 +15,6 @@ import hashlib
 import math
 import random
 import traceback
-from io import BytesIO
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont
@@ -30,6 +29,9 @@ W, H = 1320, 760
 FONT_REGULAR_PATH = "KiyaraMusic/assets/font2.ttf"
 FONT_BOLD_PATH = "KiyaraMusic/assets/font3.ttf"
 DEFAULT_THUMB = "KiyaraMusic/assets/ShrutiBots.jpg"
+BG_PATH = "KiyaraMusic/assets/start_bg.jpg"
+
+_BG_CACHE = None
 
 LABEL = (255, 255, 255, 250)
 SECONDARY = (235, 235, 245, 175)
@@ -73,10 +75,18 @@ def _cover_crop(img, w, h):
     return img.crop((x, y, x + w, y + h))
 
 
-def _photo_background(avatar):
-    bg = _cover_crop(avatar, W, H).filter(ImageFilter.GaussianBlur(40))
-    bg = ImageEnhance.Brightness(bg).enhance(0.5)
-    return bg.convert("RGBA")
+def _photo_background(_img):
+    """Branded start art (assets/start_bg.jpg) -> full-bleed background."""
+    global _BG_CACHE
+    if _BG_CACHE is None:
+        try:
+            _BG_CACHE = Image.open(BG_PATH).convert("RGBA")
+        except Exception:
+            _BG_CACHE = False
+    if _BG_CACHE is False:
+        return None
+    bg = _cover_crop(_BG_CACHE, W, H).filter(ImageFilter.GaussianBlur(3))
+    return bg
 
 
 def _gradient_background(rng):
@@ -181,37 +191,28 @@ def _chip(draw, text, font):
 
 
 def render_start_poster(*, title, subtitle, chips=None, footer=None,
-                        avatar_bytes=None, seed="kiyara"):
+                        seed="kiyara", **_ignored):
     """iOS-style start poster -> cache path, ya None (fallback par)."""
     try:
         rng = _rng_for(str(seed))
         accent = PALETTES[rng.randrange(len(PALETTES))][2]
 
-        if avatar_bytes:
-            try:
-                avatar = Image.open(BytesIO(avatar_bytes)).convert("RGBA")
-                canvas = _photo_background(avatar)
-            except Exception:
-                avatar, canvas = None, _gradient_background(rng)
-        else:
-            avatar, canvas = None, _gradient_background(rng)
+        bg = _photo_background(None)
+        if bg is None:
+            bg = _gradient_background(rng)
+        canvas = bg.copy()
 
         canvas = _scrim(canvas)
         draw = ImageDraw.Draw(canvas)
-
-        # top label
         top_font = ImageFont.truetype(FONT_REGULAR_PATH, 26)
         top_txt = f"@{app.username}" if app.username else "KiyaraMusic"
         tw = draw.textlength(top_txt, font=top_font)
         draw.text(((W - tw) / 2, 34), top_txt, font=top_font, fill=TERTIARY)
 
-        # avatar (photo ya monogram)
+        # avatar (monogram — branded bg ke upar consistent look)
         av_y = 96
-        if avatar is not None:
-            av_size = _avatar_with_ring(canvas, avatar, (W - 264) // 2, av_y)
-        else:
-            mono_img = _monogram_avatar((title[:1] or "K").upper(), accent)
-            av_size = _avatar_with_ring(canvas, mono_img, (W - 264) // 2, av_y)
+        mono_img = _monogram_avatar((title[:1] or "K").upper(), accent)
+        av_size = _avatar_with_ring(canvas, mono_img, (W - 264) // 2, av_y)
         draw = ImageDraw.Draw(canvas)
 
         # title + subtitle
