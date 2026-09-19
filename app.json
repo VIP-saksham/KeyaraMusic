@@ -1,12 +1,12 @@
 {
-  "name": "Kiyara Music",
+  "name": "Keyara Music",
   "description": "A Telegram Music Player Bot, written in Python with Pyrogram and Py-Tgcalls.",
   "logo": "https://files.catbox.moe/v7hio8.jpg",
   "keywords": [
     "python3",
     "telegram",
     "bot",
-    "KiyaraBots",
+    "KeyaraBots",
     "MusicBot",
     "telegram-bot",
     "pyrogram"
@@ -49,7 +49,7 @@
     },
     "BOT_USERNAME": {
       "description": "The username of your bot (without @)",
-      "value": "KiyaraMusicBot",
+      "value": "KeyaraMusicBot",
       "required": true
     },
     "UPSTREAM_REPO": {

@@ -1,11 +1,11 @@
-# 🎵 Kiyara Music Bot 🎵
+# 🎵 Keyara Music Bot 🎵
 
 <p align="center">
-  <img src="KiyaraMusic/assets/equalizer.svg" width="100%" height="500">
+  <img src="KeyaraMusic/assets/equalizer.svg" width="100%" height="500">
 </p>
 
 <div align="center">
-  <h1>🎵 Kiyara Music Bot 🎵</h1>
+  <h1>🎵 Keyara Music Bot 🎵</h1>
   
   <p><b>A Powerful Telegram Music Bot to Play Songs in Voice Chats</b></p>
   
@@ -205,7 +205,7 @@ There are two ways to start the bot:
 **1. Using Python directly:**
 
 ```bash
-python3 -m KiyaraMusic
+python3 -m KeyaraMusic
 ```
 
 **2. Using Bash script:**
@@ -319,6 +319,6 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ---
 
-**🎵 Enjoy Streaming Music with Kiyara Bot! 🎵**
+**🎵 Enjoy Streaming Music with Keyara Bot! 🎵**
 
 </div>

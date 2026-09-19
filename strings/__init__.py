@@ -32,7 +32,7 @@ def _normalize_ui_text(value):
     if isinstance(value, str):
         return value.replace(
             "https://t.me/BlushMusicbot?start=help",
-            "https://t.me/KiyaraMusicBot?start=help",
+            "https://t.me/KeyaraMusicBot?start=help",
         )
     if isinstance(value, dict):
         return {key: _normalize_ui_text(item) for key, item in value.items()}

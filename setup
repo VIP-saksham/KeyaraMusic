@@ -59,7 +59,7 @@ install_packages() {
             pprint "✓ Done\n" "cgreen"
         else
             pprint "✗ Failed\n" "cred"
-            pprint "\n⚠ FFmpeg is required for KiyaraMusic. Please install it manually.\n" "cyellow"
+            pprint "\n⚠ FFmpeg is required for KeyaraMusic. Please install it manually.\n" "cyellow"
             exit 1
         fi
     else
@@ -157,7 +157,7 @@ main() {
     clear
     pprint "\n╔════════════════════════════════════╗\n" "cpurple"
     pprint "║                                    ║\n" "cpurple"
-    pprint "║     KiyaraMusic Setup Installer    ║\n" "cpurple"
+    pprint "║     KeyaraMusic Setup Installer    ║\n" "cpurple"
     pprint "║                                    ║\n" "cpurple"
     pprint "╚════════════════════════════════════╝\n\n" "cpurple"
     

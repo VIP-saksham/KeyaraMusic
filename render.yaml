@@ -1,13 +1,13 @@
 services:
   - type: web
-    name: kiyara-music
+    name: keyara-music
     env: python
     region: oregon
     plan: free
     buildCommand: |
       apt-get update && apt-get install -y ffmpeg
       pip install -r requirements.txt
-    startCommand: python3 -m KiyaraMusic
+    startCommand: python3 -m KeyaraMusic
     autoDeploy: true
 
     envVars:
@@ -26,7 +26,7 @@ services:
       OWNER_USERNAME:
         value: WTF_WhyMeeh
       BOT_USERNAME:
-        value: KiyaraMusicBot
+        value: KeyaraMusicBot
       UPSTREAM_REPO:
         value: https://github.com/NoxxOP/ShrutiMusic
       STRING_SESSION:

@@ -10,7 +10,7 @@ API_HASH = os.getenv("API_HASH")
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 OWNER_ID = int(os.getenv("OWNER_ID") or 0)
 OWNER_USERNAME = os.getenv("OWNER_USERNAME", "WTF_WhyMeeh")
-BOT_USERNAME = os.getenv("BOT_USERNAME", "KiyaraMusicBot")
+BOT_USERNAME = os.getenv("BOT_USERNAME", "KeyaraMusicBot")
 
 MONGO_DB_URI = os.getenv("MONGO_DB_URI", None)
 # Logging is optional; use 0 when no log group is configured.

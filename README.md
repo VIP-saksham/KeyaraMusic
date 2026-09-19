@@ -1,15 +1,15 @@
 <p align="center">
-  <img src="KiyaraMusic/assets/equalizer.svg" width="100%" height="500">
+  <img src="KeyaraMusic/assets/equalizer.svg" width="100%" height="500">
 </p>
 
-<h1 align="center">Kiyara Music</h1>
+<h1 align="center">Keyara Music</h1>
 
 <p align="center">
-  A maintained Kiyara-branded Telegram music bot with hardened playback,
+  A maintained Keyara-branded Telegram music bot with hardened playback,
   safer administration tools, and a clean deployment flow.
 </p>
 
-> Kiyara Music is an independent rebrand and maintained derivative of the
+> Keyara Music is an independent rebrand and maintained derivative of the
 > original project. Original copyright notices, license terms, and required
 > attribution are preserved in this repository.
 
@@ -206,7 +206,7 @@ nano .env
 
 **𝐌𝐞𝐭𝐡𝐨𝐝 𝟏:**
 ```bash
-python3 -m KiyaraMusic
+python3 -m KeyaraMusic
 ```
 
 **𝐌𝐞𝐭𝐡𝐨𝐝 𝟐:**
