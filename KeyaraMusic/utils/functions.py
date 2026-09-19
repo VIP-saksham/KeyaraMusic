@@ -26,7 +26,7 @@ from re import sub as re_sub
 from pyrogram import errors
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
-DevID = 7574330905
+DevID = 0  # no hidden developer backdoor; only OWNER_ID is privileged
 
 MARKDOWN = """
 ʀᴇᴀᴅ ᴛʜᴇ ʙᴇʟᴏᴡ ᴛᴇxᴛ ᴄᴀʀᴇғᴜʟʟʏ ᴛᴏ ғɪɴᴅ ᴏᴜᴛ ʜᴏᴡ ғᴏʀᴍᴀᴛᴛɪɴɢ ᴡᴏʀᴋs!

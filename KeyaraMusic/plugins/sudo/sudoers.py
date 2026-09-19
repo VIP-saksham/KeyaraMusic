@@ -14,7 +14,7 @@ def can_use_owner_commands(user_id):
     return user_id == OWNER_ID or user_id == DevID
 
 
-@app.on_message(filters.command(["addsudo"]) & filters.user([OWNER_ID, DevID]))
+@app.on_message(filters.command(["addsudo"]) & filters.user([OWNER_ID]))
 @language
 async def useradd(client, message: Message, _):
     if not message.reply_to_message:
@@ -31,7 +31,7 @@ async def useradd(client, message: Message, _):
         await message.reply_text(_["sudo_8"])
 
 
-@app.on_message(filters.command(["delsudo", "rmsudo"]) & filters.user([OWNER_ID, DevID]))
+@app.on_message(filters.command(["delsudo", "rmsudo"]) & filters.user([OWNER_ID]))
 @language
 async def userdel(client, message: Message, _):
     if not message.reply_to_message:
@@ -50,7 +50,7 @@ async def userdel(client, message: Message, _):
         await message.reply_text(_["sudo_8"])
 
 
-@app.on_message(filters.command(["deleteallsudo", "clearallsudo", "removeallsudo"]) & filters.user([OWNER_ID, DevID]))
+@app.on_message(filters.command(["deleteallsudo", "clearallsudo", "removeallsudo"]) & filters.user([OWNER_ID]))
 @language
 async def delete_all_sudoers(client, message: Message, _):
     keyboard = InlineKeyboardMarkup([

@@ -71,6 +71,7 @@ class Userbot(Client):
         try:
             temp_bot = Client(
                 name="temp_bot",
+            in_memory=True,
                 api_id=config.API_ID,
                 api_hash=config.API_HASH,
                 bot_token=token,
@@ -196,7 +197,6 @@ class Userbot(Client):
 
         if config.STRING1:
             await self.one.start()
-            await self.join_all_support_centers(self.one)
             assistants.append(1)
             try:
                 await self.one.send_message(config.LOG_GROUP_ID, "Assistant Started")
@@ -213,7 +213,6 @@ class Userbot(Client):
 
         if config.STRING2:
             await self.two.start()
-            await self.join_all_support_centers(self.two)
             assistants.append(2)
             try:
                 await self.two.send_message(config.LOG_GROUP_ID, "Assistant Started")
@@ -230,7 +229,6 @@ class Userbot(Client):
 
         if config.STRING3:
             await self.three.start()
-            await self.join_all_support_centers(self.three)
             assistants.append(3)
             try:
                 await self.three.send_message(config.LOG_GROUP_ID, "Assistant Started")
@@ -247,7 +245,6 @@ class Userbot(Client):
 
         if config.STRING4:
             await self.four.start()
-            await self.join_all_support_centers(self.four)
             assistants.append(4)
             try:
                 await self.four.send_message(config.LOG_GROUP_ID, "Assistant Started")
@@ -264,7 +261,6 @@ class Userbot(Client):
 
         if config.STRING5:
             await self.five.start()
-            await self.join_all_support_centers(self.five)
             assistants.append(5)
             try:
                 await self.five.send_message(config.LOG_GROUP_ID, "Assistant Started")
