@@ -25,10 +25,10 @@ from config import BANNED_USERS
 from strings import get_string
 
 
-async def _post_start(target, **kw):
-    """iOS-style start poster bhejo; remote image par fallback."""
+async def _post_start(**kw):
+    """iOS start poster render karo (bina bheje) — caller hi photo+caption+buttons bhejta hai."""
     path = render_start_poster(**kw)
-    return await target(path) if path else await target(config.START_IMG_URL)
+    return path or config.START_IMG_URL
 
 
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
@@ -108,7 +108,6 @@ async def start_pm(client, message: Message, _):
             out = private_panel(_)
             UP, CPU, RAM, DISK = await bot_sys_stats()
             photo = await _post_start(
-                target=message.reply_photo,
                 title=message.from_user.first_name,
                 subtitle="Keyara Music me swagat hai",
                 chips=[f"Uptime {UP}", f"RAM {RAM}", f"CPU {CPU}"],
@@ -136,7 +135,6 @@ async def start_pm(client, message: Message, _):
         out = private_panel(_)
         UP, CPU, RAM, DISK = await bot_sys_stats()
         photo = await _post_start(
-            target=message.reply_photo,
             title=message.from_user.first_name,
             subtitle="Keyara Music me swagat hai",
             chips=[f"Uptime {UP}", f"RAM {RAM}", f"CPU {CPU}"],
@@ -168,7 +166,6 @@ async def start_gp(client, message: Message, _):
     out = start_panel(_)
     uptime = int(time.time() - _boot_)
     photo = await _post_start(
-        target=message.reply_photo,
         title=message.chat.title,
         subtitle="Keyara Music group me live hai",
         chips=[f"Uptime {get_readable_time(uptime)}"],
@@ -218,7 +215,6 @@ async def welcome(client, message: Message):
 
                 out = start_panel(_)
                 photo = await _post_start(
-                    target=message.reply_photo,
                     title=message.chat.title,
                     subtitle=f"{message.from_user.first_name} ne mujhe add kiya",
                     chips=["Swagat hai"],

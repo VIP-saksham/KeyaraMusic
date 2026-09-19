@@ -32,8 +32,8 @@ def start_panel(_):
             InlineKeyboardButton(text=_["S_B_2"], url=config.SUPPORT_GROUP),
         ],
         [
-            InlineKeyboardButton(text=_["E_X_1"], url=config.UPSTREAM_REPO),
-            InlineKeyboardButton(text=_["S_B_11"], callback_data="about_page")  # About button
+            InlineKeyboardButton(text=_["S_B_4"], callback_data="help_page_1"),
+            InlineKeyboardButton(text=_["S_B_11"], callback_data="about_page"),
         ],
     ]
     return buttons
@@ -47,24 +47,12 @@ def private_panel(_):
             )
         ],
         [
-            InlineKeyboardButton(
-                text=_["S_B_11"],
-                callback_data="about_page"
-            ),
-            InlineKeyboardButton(
-                text=_["S_B_12"],
-                callback_data="owner_page"
-            )
+            InlineKeyboardButton(text=_["S_B_4"], callback_data="help_page_1"),
+            InlineKeyboardButton(text=_["S_B_11"], callback_data="about_page"),
         ],
         [
-            InlineKeyboardButton(
-                text=_["E_X_1"],
-                callback_data="fork_repo"
-            ),
-            InlineKeyboardButton(text=_["S_B_5"], user_id=config.OWNER_ID),
-        ],
-        [
-            InlineKeyboardButton(text=_["S_B_4"], callback_data="help_page_1")
+            InlineKeyboardButton(text=_["S_B_12"], callback_data="owner_page"),
+            InlineKeyboardButton(text=_['S_B_5'], user_id=config.OWNER_ID),
         ],
     ]
     return buttons
