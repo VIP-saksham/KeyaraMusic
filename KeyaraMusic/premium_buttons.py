@@ -138,6 +138,54 @@ for _emo, _target in ALIAS.items():
         _ICON_LOOKUP.append((_emo.replace("\ufe0f", ""), _eid, _emo))
 
 
+# ---- button colors (Bot API 9.4 `style`) ----------------------------------
+# bg_primary = dark blue (main actions), bg_danger = red (destructive),
+# bg_success = green (positive). Sab bots ke liye allowed; purane clients
+# normal button dikhaate hain.
+
+_DANGER_KW = [
+    "close", "forceclose", "stop", "gban", "g-ban", "blacklist", "bl-chat",
+    "bl-users", "bl-", "ban", "block", "gali", "delete", "cancel",
+    "disable", "leave", "kick",
+]
+_SUCCESS_KW = [
+    "auth", "vote", "resume", "enable", "fsub", "activate", "unban",
+    "confirm", "apply",
+]
+_PRIMARY_KW = [
+    "add me", "add to", "audio", "video", "live", "stream", "play",
+    "skip", "download", "speed",
+]
+_TOKEN_DANGER = {"no", "off"}
+_TOKEN_SUCCESS = {"yes", "on", "ok"}
+
+_CB_DANGER = ("stop", "forceclose", "ban", "close", "delete", "cancel")
+_CB_SUCCESS = ("resume", "unpin_yes", "confirm")
+_CB_PRIMARY = ("musicstream", "livestream", "play", "skip", "speedup", "download")
+
+
+def style_for(text, callback_data=None):
+    """ButtonStyle member ya None (DEFAULT). Text pehle, callback-data fallback."""
+    if not _SUPPORTS_STYLE or not _STYLES_ENABLED:
+        return None
+    n = _normalize(text) if text else ""
+    toks = set(n.split())
+    if any(k in n for k in _DANGER_KW) or (toks & _TOKEN_DANGER):
+        return _BTN_STYLE.DANGER
+    if any(k in n for k in _SUCCESS_KW) or (toks & _TOKEN_SUCCESS):
+        return _BTN_STYLE.SUCCESS
+    if any(k in n for k in _PRIMARY_KW):
+        return _BTN_STYLE.PRIMARY
+    cb = str(callback_data or "").lower()
+    if any(k in cb for k in _CB_DANGER):
+        return _BTN_STYLE.DANGER
+    if any(k in cb for k in _CB_SUCCESS):
+        return _BTN_STYLE.SUCCESS
+    if any(k in cb for k in _CB_PRIMARY):
+        return _BTN_STYLE.PRIMARY
+    return None
+
+
 def icon_for(text):
     """(premium_emoji_id, matched_emoji_char) ya (None, None)."""
     if not text:
@@ -156,14 +204,25 @@ def icon_for(text):
 
 
 _ENABLED = os.environ.get("PREMIUM_BUTTON_ICONS", "1") != "0"
+_STYLES_ENABLED = os.environ.get("PREMIUM_BUTTON_STYLES", "1") != "0"
 
 try:
-    _SUPPORTS_ICON = (
-        "icon_custom_emoji_id"
-        in inspect.signature(InlineKeyboardButton.__init__).parameters
-    )
+    _SIG = inspect.signature(InlineKeyboardButton.__init__).parameters
+    _SUPPORTS_ICON = "icon_custom_emoji_id" in _SIG
+    _SUPPORTS_STYLE = "style" in _SIG
 except (ValueError, TypeError):
     _SUPPORTS_ICON = False
+    _SUPPORTS_STYLE = False
+
+_BTN_STYLE = None
+if _SUPPORTS_STYLE:
+    try:
+        from pyrogram import enums as _enums
+
+        _BTN_STYLE = getattr(_enums, "ButtonStyle", None)
+        _SUPPORTS_STYLE = _BTN_STYLE is not None
+    except Exception:
+        _SUPPORTS_STYLE = False
 
 
 def set_enabled(flag: bool):
@@ -180,7 +239,9 @@ class Pkb(InlineKeyboardButton):
     hai. icon_custom_emoji_id explicitly pass karne pe auto-detect skip.
     """
 
-    def __init__(self, text, icon_custom_emoji_id=None, keep_emoji=False, **kwargs):
+    def __init__(
+        self, text, icon_custom_emoji_id=None, keep_emoji=False, style=None, **kwargs
+    ):
         if (
             _ENABLED
             and icon_custom_emoji_id is None
@@ -199,8 +260,15 @@ class Pkb(InlineKeyboardButton):
                             text = stripped
             except Exception:
                 pass
+        if style is None:
+            try:
+                style = style_for(text, kwargs.get("callback_data"))
+            except Exception:
+                style = None
         if _SUPPORTS_ICON:
             kwargs["icon_custom_emoji_id"] = icon_custom_emoji_id
+        if _SUPPORTS_STYLE and style is not None:
+            kwargs["style"] = style
         super().__init__(text=text, **kwargs)
 
 
