@@ -139,51 +139,24 @@ for _emo, _target in ALIAS.items():
 
 
 # ---- button colors (Bot API 9.4 `style`) ----------------------------------
-# bg_primary = dark blue (main actions), bg_danger = red (destructive),
-# bg_success = green (positive). Sab bots ke liye allowed; purane clients
-# normal button dikhaate hain.
+# SAB buttons blue (primary), sirf close/cancel/stop type red (danger).
+# Purane clients normal button dikhaate hain.
 
-_DANGER_KW = [
-    "close", "forceclose", "stop", "gban", "g-ban", "blacklist", "bl-chat",
-    "bl-users", "bl-", "ban", "block", "gali", "delete", "cancel",
-    "disable", "leave", "kick",
-]
-_SUCCESS_KW = [
-    "auth", "vote", "resume", "enable", "fsub", "activate", "unban",
-    "confirm", "apply",
-]
-_PRIMARY_KW = [
-    "add me", "add to", "audio", "video", "live", "stream", "play",
-    "skip", "download", "speed",
-]
-_TOKEN_DANGER = {"no", "off"}
-_TOKEN_SUCCESS = {"yes", "on", "ok"}
-
-_CB_DANGER = ("stop", "forceclose", "ban", "close", "delete", "cancel")
-_CB_SUCCESS = ("resume", "unpin_yes", "confirm")
-_CB_PRIMARY = ("musicstream", "livestream", "play", "skip", "speedup", "download")
+_DANGER_KW = ["close", "forceclose", "cancel", "stop"]
+_CB_DANGER = ("close", "cancel", "stop")
 
 
 def style_for(text, callback_data=None):
-    """ButtonStyle member ya None (DEFAULT). Text pehle, callback-data fallback."""
+    """Close-type -> DANGER (red), baaki SAB -> PRIMARY (blue)."""
     if not _SUPPORTS_STYLE or not _STYLES_ENABLED:
         return None
     n = _normalize(text) if text else ""
-    toks = set(n.split())
-    if any(k in n for k in _DANGER_KW) or (toks & _TOKEN_DANGER):
+    if any(k in n for k in _DANGER_KW):
         return _BTN_STYLE.DANGER
-    if any(k in n for k in _SUCCESS_KW) or (toks & _TOKEN_SUCCESS):
-        return _BTN_STYLE.SUCCESS
-    if any(k in n for k in _PRIMARY_KW):
-        return _BTN_STYLE.PRIMARY
     cb = str(callback_data or "").lower()
     if any(k in cb for k in _CB_DANGER):
         return _BTN_STYLE.DANGER
-    if any(k in cb for k in _CB_SUCCESS):
-        return _BTN_STYLE.SUCCESS
-    if any(k in cb for k in _CB_PRIMARY):
-        return _BTN_STYLE.PRIMARY
-    return None
+    return _BTN_STYLE.PRIMARY
 
 
 def icon_for(text):
