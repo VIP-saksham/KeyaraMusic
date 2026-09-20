@@ -27,6 +27,12 @@ try:
 except RuntimeError:
     asyncio.set_event_loop(asyncio.new_event_loop())
 
+
+# Premium button icons: patch InlineKeyboardButton BEFORE plugins load
+from .premium_buttons import apply_premium_buttons
+
+apply_premium_buttons()
+
 from KeyaraMusic.core.bot import Nand
 from KeyaraMusic.core.dir import dirr
 from KeyaraMusic.core.git import git
