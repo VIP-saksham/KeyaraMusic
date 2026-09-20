@@ -109,7 +109,7 @@ class Call(PyTgCalls):
         combined = f"-threads 0 {ffmpeg}" if ffmpeg else "-threads 0"
         return types.MediaStream(
             media_path=source,
-            audio_parameters=types.AudioQuality.MEDIUM,
+            audio_parameters=types.AudioQuality.HIGH,
             video_parameters=types.VideoQuality.HD_720p,
             audio_flags=types.MediaStream.Flags.REQUIRED,
             video_flags=(

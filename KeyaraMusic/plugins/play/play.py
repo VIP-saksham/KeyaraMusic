@@ -35,6 +35,7 @@ from KeyaraMusic.utils.channelplay import get_channeplayCB
 from KeyaraMusic.utils.decorators.language import languageCB
 from KeyaraMusic.utils.decorators.play import PlayWrapper
 from KeyaraMusic.utils.formatters import formats
+from KeyaraMusic.utils.premium_emoji import searching_text
 from KeyaraMusic.utils.inline import (
     botplaylist_markup,
     livestream_markup,
@@ -76,7 +77,7 @@ async def play_commnd(
     fplay,
 ):
     mystic = await message.reply_text(
-        _["play_2"].format(channel) if channel else _["play_1"]
+        _["play_2"].format(channel) if channel else searching_text()
     )
     plist_id = None
     slider = None
@@ -482,7 +483,7 @@ async def play_music(client, CallbackQuery, _):
     except:
         pass
     mystic = await CallbackQuery.message.reply_text(
-        _["play_2"].format(channel) if channel else _["play_1"]
+        _["play_2"].format(channel) if channel else searching_text()
     )
     try:
         details, track_id = await YouTube.track(vidid, True)
@@ -570,7 +571,7 @@ async def play_playlists_command(client, CallbackQuery, _):
     except:
         pass
     mystic = await CallbackQuery.message.reply_text(
-        _["play_2"].format(channel) if channel else _["play_1"]
+        _["play_2"].format(channel) if channel else searching_text()
     )
     videoid = lyrical.get(videoid)
     video = True if mode == "v" else None

@@ -1,3 +1,5 @@
+import asyncio
+import random
 import time
 
 from pyrogram import filters
@@ -29,6 +31,27 @@ async def _post_start(**kw):
     """iOS start poster render karo (bina bheje) — caller hi photo+caption+buttons bhejta hai."""
     path = render_start_poster(**kw)
     return path or config.START_IMG_URL
+
+
+_DICE_EMOJIS = ["🎲", "🎯", "🏀", "⚽", "🎳"]
+
+
+async def _start_animation(message: Message):
+    """/start par chhota dice animation — poster se pehle ki vibe."""
+    try:
+        return await message.reply_dice(emoji=random.choice(_DICE_EMOJIS))
+    except Exception:
+        return None
+
+
+async def _end_start_animation(dice):
+    if dice is None:
+        return
+    try:
+        await asyncio.sleep(2.2)
+        await dice.delete()
+    except Exception:
+        pass
 
 
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
@@ -105,6 +128,7 @@ async def start_pm(client, message: Message, _):
                     text=f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <b>ᴛʀᴀᴄᴋ ɪɴғᴏʀᴍᴀᴛɪᴏɴ</b>.\n\n<b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code>\n<b>ᴜsᴇʀɴᴀᴍᴇ :</b> @{message.from_user.username}",
                 )
         if name == "start":
+            dice = await _start_animation(message)
             out = private_panel(_)
             UP, CPU, RAM, DISK = await bot_sys_stats()
             photo = await _post_start(
@@ -114,6 +138,7 @@ async def start_pm(client, message: Message, _):
                 footer="Gaana chalane ke liye /play bhejo",
                 seed=str(message.from_user.id),
             )
+            await _end_start_animation(dice)
             try:
                 await message.reply_photo(
                     photo=photo,
@@ -132,6 +157,7 @@ async def start_pm(client, message: Message, _):
                     text=f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ.\n\n<b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code>\n<b>ᴜsᴇʀɴᴀᴍᴇ :</b> @{message.from_user.username}",
                 )
     else:
+        dice = await _start_animation(message)
         out = private_panel(_)
         UP, CPU, RAM, DISK = await bot_sys_stats()
         photo = await _post_start(
@@ -141,6 +167,7 @@ async def start_pm(client, message: Message, _):
             footer="Gaana chalane ke liye /play bhejo",
             seed=str(message.from_user.id),
         )
+        await _end_start_animation(dice)
         try:
             await message.reply_photo(
                 photo=photo,
