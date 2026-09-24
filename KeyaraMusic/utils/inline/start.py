@@ -52,7 +52,7 @@ def private_panel(_):
         ],
         [
             InlineKeyboardButton(text=_["S_B_12"], callback_data="owner_page"),
-            InlineKeyboardButton(text=_['S_B_5'], user_id=config.OWNER_ID),
+            InlineKeyboardButton(text=_['S_B_5'], url=f"https://t.me/{config.OWNER_USERNAME}"),
         ],
     ]
     return buttons
