@@ -122,6 +122,14 @@ async def init():
 
     await Nand.decorators()
 
+    # 🤖 Self-Heal Agent (NVIDIA NIM) — log.txt watch karke errors ka
+    # root-cause + fix LOG_GROUP_ID me bhejta hai (NVIDIA_API_KEY .env me ho to).
+    try:
+        from KeyaraMusic.utils.autofix_agent import start_autofix_agent
+        start_autofix_agent(app)
+    except Exception as _e:
+        LOGGER("KeyaraMusic").warning(f"Autofix agent start failed: {_e}")
+
     LOGGER("KeyaraMusic").info(
         "Keyara Music Started Successfully.\n\nDon't forget to visit @KeyaraBots"
     )
@@ -146,3 +154,5 @@ if __name__ == "__main__":
 
 
 # ❤️ Love From ShrutiBots
+
+# 🤖 VPS deploy: 12h auto-restart (cron + tmux 'keyara') + NVIDIA Self-Heal Agent
