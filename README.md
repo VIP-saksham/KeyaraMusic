@@ -25,13 +25,30 @@
 
 > **𝐑𝐞𝐬𝐩𝐨𝐧𝐬𝐞 𝐓𝐢𝐦𝐞:** `1-3 seconds` | **𝐒𝐭𝐚𝐛𝐢𝐥𝐢𝐭𝐲:** `99.9% Uptime`
 
-[![Support Channel](https://img.shields.io/badge/Support%20Channel-black?style=for-the-badge&logo=telegram)](https://t.me/ShrutiBots)
-[![Support Group](https://img.shields.io/badge/Support%20Group-black?style=for-the-badge&logo=telegram)](https://t.me/ShrutiSupportChat)
-[![Owner](https://img.shields.io/badge/Owner-black?style=for-the-badge&logo=telegram)](https://t.me/WTF_WhyMeeh)
+[![Owner](https://img.shields.io/badge/Owner%20%40TrueNakshu-black?style=for-the-badge&logo=telegram)](https://t.me/TrueNakshu)
+[![GitHub](https://img.shields.io/badge/GitHub%20VIP--saksham-black?style=for-the-badge&logo=github)](https://github.com/VIP-saksham)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn%20SakshamSwaroop-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/SakshamSwaroop)
 
-[![Forks](https://img.shields.io/github/forks/NoxxOP/ShrutiMusic?color=black&logo=github&logoColor=black&style=for-the-badge)](https://github.com/NoxxOP/ShrutiMusic/fork)
-[![Stars](https://img.shields.io/github/stars/NoxxOP/ShrutiMusic?color=black&logo=github&logoColor=black&style=for-the-badge)](https://github.com/NoxxOP/ShrutiMusic/stargazers)
-[![Contributors](https://img.shields.io/github/contributors/NoxxOP/ShrutiMusic?color=black&logo=github&logoColor=black&style=for-the-badge)](https://github.com/NoxxOP/ShrutiMusic/graphs/contributors)
+[![Forks](https://img.shields.io/github/forks/VIP-saksham/KeyaraMusic?color=black&logo=github&logoColor=black&style=for-the-badge)](https://github.com/VIP-saksham/KeyaraMusic/fork)
+[![Stars](https://img.shields.io/github/stars/VIP-saksham/KeyaraMusic?color=black&logo=github&logoColor=black&style=for-the-badge)](https://github.com/VIP-saksham/KeyaraMusic/stargazers)
+[![Contributors](https://img.shields.io/github/contributors/VIP-saksham/KeyaraMusic?color=black&logo=github&logoColor=black&style=for-the-badge)](https://github.com/VIP-saksham/KeyaraMusic/graphs/contributors)
+
+</div>
+
+---
+
+## 🔥 𝐖𝐡𝐚𝐭'𝐬 𝐍𝐞𝐰 𝐢𝐧 𝐭𝐡𝐢𝐬 𝐅𝐨𝐫𝐤
+
+<div align="center">
+
+| ⚡ 𝐅𝐞𝐚𝐭𝐮𝐫𝐞 | 𝐃𝐞𝐬𝐜𝐫𝐢𝐩𝐭𝐢𝐨𝐧 |
+|:---:|:---:|
+| **🚀 𝐇𝐞𝐥𝐥𝐀𝐏𝐈 𝐄𝐧𝐠𝐢𝐧𝐞** | Direct stream URLs — **no download wait**, song starts in VC in ~1-2 seconds |
+| **🤖 𝐒𝐞𝐥𝐟-𝐇𝐞𝐚𝐥 𝐀𝐠𝐞𝐧𝐭 (𝐍𝐕𝐈𝐃𝐈𝐀 𝐍𝐈𝐌)** | Watches logs live, explains any traceback (root-cause + fix) to the log group |
+| **⏰ 𝟏𝟐𝐡 𝐀𝐮𝐭𝐨-𝐑𝐞𝐬𝐭𝐚𝐫𝐭** | Graceful scheduled restart via cron — keeps the bot fresh 24/7 |
+| **🍪 𝐘𝐨𝐮𝐓𝐮𝐛𝐞 𝐂𝐨𝐨𝐤𝐢𝐞𝐬** | Login-cookie extraction — no IP blocks, 2-5x faster metadata |
+| **🔍 𝐒𝐦𝐚𝐫𝐭 𝐒𝐞𝐚𝐫𝐜𝐡** | `/play <song name>` with instant API-backed search fallback |
+| **🎨 𝐏𝐫𝐞𝐦𝐢𝐮𝐦 𝐔𝐈** | Animated button icons, glassmorphic thumbnails, blue/red button styling |
 
 </div>
 
@@ -43,9 +60,9 @@
 
 | **𝐏𝐥𝐚𝐭𝐟𝐨𝐫𝐦** | **𝐃𝐞𝐩𝐥𝐨𝐲 𝐍𝐨𝐰** | **𝐈𝐧𝐟𝐨** |
 |:---:|:---:|:---:|
-| **𝐇𝐞𝐫𝐨𝐤𝐮** | [![Deploy](https://img.shields.io/badge/Deploy%20On%20Heroku-black?style=for-the-badge&logo=heroku)](https://dashboard.heroku.com/new?template=https://github.com/NoxxOP/ShrutiMusic) | 𝐎𝐧𝐞-𝐂𝐥𝐢𝐜𝐤 𝐃𝐞𝐩𝐥𝐨𝐲 |
-| **𝐑𝐞𝐧𝐝𝐞𝐫** | [![Deploy](https://img.shields.io/badge/Deploy%20On%20Render-black?style=for-the-badge&logo=render)](https://render.com/deploy?repo=https://github.com/NoxxOP/ShrutiMusic) | 𝟏𝟎𝟎% 𝐅𝐫𝐞𝐞 |
-| **𝐒𝐢𝐦𝐩𝐥𝐞 𝐁𝐨𝐭** | [![View](https://img.shields.io/badge/Simple%20Bot-black?style=for-the-badge&logo=github)](https://github.com/NoxxOP/ShrutixMusic) | 𝐋𝐢𝐠𝐡𝐭𝐰𝐞𝐢𝐠𝐡𝐭 |
+| **𝐇𝐞𝐫𝐨𝐤𝐮** | [![Deploy](https://img.shields.io/badge/Deploy%20On%20Heroku-black?style=for-the-badge&logo=heroku)](https://dashboard.heroku.com/new?template=https://github.com/VIP-saksham/KeyaraMusic) | 𝐎𝐧𝐞-𝐂𝐥𝐢𝐜𝐤 𝐃𝐞𝐩𝐥𝐨𝐲 |
+| **𝐑𝐞𝐧𝐝𝐞𝐫** | [![Deploy](https://img.shields.io/badge/Deploy%20On%20Render-black?style=for-the-badge&logo=render)](https://render.com/deploy?repo=https://github.com/VIP-saksham/KeyaraMusic) | 𝟏𝟎𝟎% 𝐅𝐫𝐞𝐞 |
+| **𝐕𝐏𝐒** | 𝐒𝐞𝐞 𝐠𝐮𝐢𝐝𝐞 𝐛𝐞𝐥𝐨𝐰 | 𝐅𝐮𝐥𝐥 𝐂𝐨𝐧𝐭𝐫𝐨𝐥 |
 
 </div>
 
@@ -122,29 +139,29 @@ sudo apt-get install -y nodejs
 ### **𝐒𝐭𝐞𝐩 𝟒: 𝐂𝐥𝐨𝐧𝐞 𝐑𝐞𝐩𝐨𝐬𝐢𝐭𝐨𝐫𝐲**
 
 ```bash
-git clone https://github.com/NoxxOP/ShrutiMusic
+git clone https://github.com/VIP-saksham/KeyaraMusic
 ```
 
 ```bash
-cd ShrutiMusic
+cd KeyaraMusic
 ```
 
 ---
 
-### **𝐒𝐭𝐞𝐩 𝟓: 𝐂𝐫𝐞𝐚𝐭𝐞 𝐒𝐜𝐫𝐞𝐞𝐧 𝐒𝐞𝐬𝐬𝐢𝐨𝐧**
+### **𝐒𝐭𝐞𝐩 𝟓: 𝐂𝐫𝐞𝐚𝐭𝐞 𝐓𝐌𝐮𝐱 𝐒𝐞𝐬𝐬𝐢𝐨𝐧**
 
 ```bash
-screen
+tmux new -s keyara
 ```
 
-**𝐍𝐨𝐭𝐞:** Press `Ctrl+A` then `D` to detach screen
+**𝐍𝐨𝐭𝐞:** Press `Ctrl+B` then `D` to detach tmux
 
 **𝐓𝐨 𝐑𝐞𝐚𝐭𝐭𝐚𝐜𝐡:**
 ```bash
-screen -ls
+tmux ls
 ```
 ```bash
-screen -r {screen_id}
+tmux attach -t keyara
 ```
 
 ---
@@ -193,8 +210,11 @@ nano .env
 - `BOT_TOKEN` - Get from [@BotFather](https://t.me/BotFather)
 - `MONGO_DB_URI` - MongoDB Atlas connection string
 - `OWNER_ID` - Your Telegram user ID
+- `OWNER_USERNAME` - Your Telegram username (owner button on /start)
 - `STRING_SESSION` - Generate using [@Sessionbbbot](https://t.me/Sessionbbbot)
 - `LOG_GROUP_ID` - Log group/channel ID (starting with -100)
+- `HELLAPI_URL` & `HELLAPI_KEY` - [HellAPI](https://t.me/HellApiBot) streaming engine (10x speed)
+- `NVIDIA_API_KEY` - *(optional)* Free key from [build.nvidia.com](https://build.nvidia.com) — enables the 🤖 Self-Heal Agent
 - `SUPPORT_GROUP` - Your support group link
 - `SUPPORT_CHANNEL` - Your support channel link
 
@@ -214,7 +234,19 @@ python3 -m KeyaraMusic
 bash start
 ```
 
-**𝐃𝐞𝐭𝐚𝐜𝐡 𝐒𝐜𝐫𝐞𝐞𝐧:** `Ctrl+A` then `D`
+**𝐃𝐞𝐭𝐚𝐜𝐡 𝐓𝐦𝐮𝐱:** `Ctrl+B` then `D`
+
+---
+
+### **𝐁𝐨𝐧𝐮𝐬: 𝟏𝟐𝐡 𝐀𝐮𝐭𝐨-𝐑𝐞𝐬𝐭𝐚𝐫𝐭 (𝐂𝐫𝐨𝐧)**
+
+```bash
+crontab -e
+```
+
+```bash
+0 */12 * * * /path/to/keyara_restart.sh >> /path/to/restart_cron.log 2>&1
+```
 
 </details>
 
@@ -227,7 +259,7 @@ bash start
 
 <div align="center">
 
-[![Deploy to Heroku](https://img.shields.io/badge/Deploy%20To%20Heroku-black?style=for-the-badge&logo=heroku)](https://dashboard.heroku.com/new?template=https://github.com/NoxxOP/ShrutiMusic)
+[![Deploy to Heroku](https://img.shields.io/badge/Deploy%20To%20Heroku-black?style=for-the-badge&logo=heroku)](https://dashboard.heroku.com/new?template=https://github.com/VIP-saksham/KeyaraMusic)
 
 </div>
 
@@ -290,10 +322,10 @@ bash start
 
 <div align="center">
 
-![Repo Size](https://img.shields.io/github/repo-size/NoxxOP/ShrutiMusic?color=black&logo=github&logoColor=black&style=for-the-badge)
-![Issues](https://img.shields.io/github/issues/NoxxOP/ShrutiMusic?color=black&logo=github&logoColor=black&style=for-the-badge)
-![License](https://img.shields.io/github/license/NoxxOP/ShrutiMusic?color=black&logo=github&logoColor=black&style=for-the-badge)
-![Last Commit](https://img.shields.io/github/last-commit/NoxxOP/ShrutiMusic?color=blue&logo=github&logoColor=green&style=for-the-badge)
+![Repo Size](https://img.shields.io/github/repo-size/VIP-saksham/KeyaraMusic?color=black&logo=github&logoColor=black&style=for-the-badge)
+![Issues](https://img.shields.io/github/issues/VIP-saksham/KeyaraMusic?color=black&logo=github&logoColor=black&style=for-the-badge)
+![License](https://img.shields.io/github/license/VIP-saksham/KeyaraMusic?color=black&logo=github&logoColor=black&style=for-the-badge)
+![Last Commit](https://img.shields.io/github/last-commit/VIP-saksham/KeyaraMusic?color=blue&logo=github&logoColor=green&style=for-the-badge)
 
 </div>
 
@@ -303,7 +335,13 @@ bash start
 
 <div align="center">
 
-**𝐌𝐚𝐢𝐧 𝐃𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫**
+**𝐎𝐰𝐧𝐞𝐫 & 𝐌𝐚𝐢𝐧𝐭𝐚𝐢𝐧𝐞𝐫**
+
+[![VIP-saksham](https://img.shields.io/badge/GitHub-VIP--saksham-black?style=for-the-badge&logo=github)](https://github.com/VIP-saksham)
+[![Telegram](https://img.shields.io/badge/Telegram-%40TrueNakshu-black?style=for-the-badge&logo=telegram)](https://t.me/TrueNakshu)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-SakshamSwaroop-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/SakshamSwaroop)
+
+**𝐎𝐫𝐢𝐠𝐢𝐧𝐚𝐥 𝐃𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫**
 
 [![NoxxOP](https://img.shields.io/badge/NoxxOP-black?style=for-the-badge&logo=github)](https://github.com/NoxxOP)
 
@@ -323,18 +361,18 @@ bash start
 
 ---
 
-## 💬 𝐒𝐮𝐩𝐩𝐨𝐫𝐭
+## 💬 𝐂𝐨𝐧𝐭𝐚𝐜𝐭 𝐎𝐰𝐧𝐞𝐫
 
 <div align="center">
 
-| **𝐒𝐮𝐩𝐩𝐨𝐫𝐭 𝐂𝐡𝐚𝐧𝐧𝐞𝐥** | **𝐒𝐮𝐩𝐩𝐨𝐫𝐭 𝐆𝐫𝐨𝐮𝐩** |
-|:---:|:---:|
-| [![Channel](https://img.shields.io/badge/Join%20Channel-black?style=for-the-badge&logo=telegram)](https://t.me/ShrutiBots) | [![Group](https://img.shields.io/badge/Join%20Group-black?style=for-the-badge&logo=telegram)](https://t.me/ShrutiSupportChat) |
-| Latest Updates | 24/7 Help & Support |
+| **𝐓𝐞𝐥𝐞𝐠𝐫𝐚𝐦** | **𝐆𝐢𝐭𝐇𝐮𝐛** | **𝐋𝐢𝐧𝐤𝐞𝐝𝐈𝐧** |
+|:---:|:---:|:---:|
+| [![TG](https://img.shields.io/badge/%40TrueNakshu-black?style=for-the-badge&logo=telegram)](https://t.me/TrueNakshu) | [![GH](https://img.shields.io/badge/VIP--saksham-black?style=for-the-badge&logo=github)](https://github.com/VIP-saksham) | [![LI](https://img.shields.io/badge/SakshamSwaroop-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/SakshamSwaroop) |
+| Fastest Reply | Code & Issues | Professional Profile |
 
 ---
 
-<img src="https://img.shields.io/badge/Made%20with%20%E2%9D%A4%EF%B8%8F%20by-NoxxOP-orange?style=for-the-badge&logo=heart" alt="Made with love">
+<img src="https://img.shields.io/badge/Made%20with%20%E2%9D%A4%EF%B8%8F%20by-VIP--saksham-orange?style=for-the-badge&logo=heart" alt="Made with love">
 
 ---
 
