@@ -48,17 +48,6 @@ counter = {}
 async def _clear_(chat_id):
     db[chat_id] = []
     await remove_active_video_chat(chat_id)
-
-async def _auto_queue_next(chat_id) -> bool:
-    """Autoplay: queue one next track if enabled. Never raises."""
-    try:
-        from KeyaraMusic.utils.stream.autoplay import ensure_autoplay_on_empty
-        return await ensure_autoplay_on_empty(chat_id)
-    except Exception as e:
-        LOGGER(__name__).warning(
-            f"autoplay hook error {chat_id}: {type(e).__name__}: {e}")
-        return False
-
     await remove_active_chat(chat_id)
 
 
@@ -284,7 +273,13 @@ class Call(PyTgCalls):
         stream = self._build_stream(link, video=bool(video))
         last_err = None
         for attempt in (1, 2):
-            try:
+            # PRE-LEAVE (Buffy fix): stale ntgcalls connection clear
+        try:
+            await assistant.leave_call(chat_id)
+        except Exception:
+            pass
+
+        try:
                 await self._play_on_assistant(assistant, chat_id, stream)
                 last_err = None
                 break
@@ -334,12 +329,6 @@ class Call(PyTgCalls):
                 await set_loop(chat_id, loop)
             await auto_clean(popped)
             if not check:
-                try:
-                    if await _auto_queue_next(chat_id):
-                        await asyncio.sleep(1)
-                        return await self.change_stream(client, chat_id)
-                except Exception:
-                    pass
                 await _clear_(chat_id)
                 return await client.leave_call(chat_id, close=False)
         except Exception:
