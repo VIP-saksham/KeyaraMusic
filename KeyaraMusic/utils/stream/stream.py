@@ -121,8 +121,11 @@ async def stream(
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
                 )
-                db[chat_id][0]["mystic"] = run
-                db[chat_id][0]["markup"] = "stream"
+                try:
+                    db[chat_id][0]["mystic"] = run
+                    db[chat_id][0]["markup"] = "stream"
+                except IndexError:
+                    pass  # queue race: entry already consumed
         if count == 0:
             return
         else:
@@ -215,8 +218,11 @@ async def stream(
                 ),
                 reply_markup=InlineKeyboardMarkup(button),
             )
-            db[chat_id][0]["mystic"] = run
-            db[chat_id][0]["markup"] = "stream"
+            try:
+                db[chat_id][0]["mystic"] = run
+                db[chat_id][0]["markup"] = "stream"
+            except IndexError:
+                pass  # queue race: entry already consumed
     elif streamtype == "soundcloud":
         file_path = result["filepath"]
         title = result["title"]
@@ -265,8 +271,11 @@ async def stream(
                 ),
                 reply_markup=InlineKeyboardMarkup(button),
             )
-            db[chat_id][0]["mystic"] = run
-            db[chat_id][0]["markup"] = "tg"
+            try:
+                db[chat_id][0]["mystic"] = run
+                db[chat_id][0]["markup"] = "tg"
+            except IndexError:
+                pass  # queue race: entry already consumed
     elif streamtype == "telegram":
         file_path = result["path"]
         link = result["link"]
