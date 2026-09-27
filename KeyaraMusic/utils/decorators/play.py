@@ -82,12 +82,20 @@ def PlayWrapper(command):
             if len(message.command) < 2:
                 if "stream" in message.command:
                     return await message.reply_text(_["str_1"])
-                buttons = botplaylist_markup(_)
-                return await message.reply_photo(
-                    photo=PLAYLIST_IMG_URL,
-                    caption=_["play_18"],
-                    reply_markup=InlineKeyboardMarkup(buttons),
-                )
+                try:
+                    from KeyaraMusic.plugins.tools.mood import mood_markup
+                    return await message.reply_text(
+                        _["mood_1"],
+                        reply_markup=mood_markup(),
+                        disable_web_page_preview=True,
+                    )
+                except Exception:
+                    buttons = botplaylist_markup(_)
+                    return await message.reply_photo(
+                        photo=PLAYLIST_IMG_URL,
+                        caption=_["play_18"],
+                        reply_markup=InlineKeyboardMarkup(buttons),
+                    )
         if message.command[0][0] == "c":
             chat_id = await get_cmode(message.chat.id)
             if chat_id is None:

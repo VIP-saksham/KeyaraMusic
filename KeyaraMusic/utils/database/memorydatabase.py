@@ -25,6 +25,7 @@ authdb = mongodb.adminauth
 videodb = mongodb.Champuvideocalls
 onoffdb = mongodb.onoffper
 autoenddb = mongodb.autoend
+autoplaydb = mongodb.autoplay
 notesdb = mongodb.notes
 filtersdb = mongodb.filters
 
@@ -218,6 +219,30 @@ async def autoend_off():
     if user:
         return await autoenddb.delete_one({"chat_id": chat_id})
 
+
+# AUTOPLAY (per-chat toggle)
+autoplay = {}
+
+
+async def is_autoplay(chat_id: int) -> bool:
+    state = autoplay.get(chat_id)
+    if state is None:
+        row = await autoplaydb.find_one({"chat_id": chat_id})
+        autoplay[chat_id] = bool(row)
+        return autoplay[chat_id]
+    return state
+
+
+async def autoplay_on(chat_id: int):
+    autoplay[chat_id] = True
+    await autoplaydb.update_one(
+        {"chat_id": chat_id}, {"$set": {"chat_id": chat_id}}, upsert=True
+    )
+
+
+async def autoplay_off(chat_id: int):
+    autoplay[chat_id] = False
+    await autoplaydb.delete_one({"chat_id": chat_id})
 
 # LOOP PLAY
 async def get_loop(chat_id: int) -> int:
