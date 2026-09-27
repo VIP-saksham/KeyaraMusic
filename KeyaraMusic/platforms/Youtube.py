@@ -1,7 +1,7 @@
 """
-youtube.py  (HellAPI edition — adapted for KeyaraMusic platforms/Youtube.py)
+youtube.py  (KeyaraAPI edition — adapted for KeyaraMusic platforms/Youtube.py)
 ----------
-HellAPI — Drop-in replacement for the music bot's youtube.py
+KeyaraAPI — Drop-in replacement for the music bot's youtube.py
 
 Setup:
   1. Copy this file over platforms/Youtube.py
@@ -39,14 +39,14 @@ API_KEY = os.environ.get("HELLAPI_KEY", "")
 
 if not API_URL:
     raise EnvironmentError(
-        "[HellAPI] HELLAPI_URL not set.\n"
+        "[KeyaraAPI] HELLAPI_URL not set.\n"
         "Add to .env:  HELLAPI_URL=http://your-server:8000"
     )
 if not API_KEY:
     raise EnvironmentError(
-        "[HellAPI] HELLAPI_KEY not set.\n"
+        "[KeyaraAPI] HELLAPI_KEY not set.\n"
         "Add to .env:  HELLAPI_KEY=HellAPIxxxxxxxxxxxxxxxx\n"
-        "Get key: HellAPI Telegram Bot → /start"
+        "Get key: @KeyaraApiBot → /start"
     )
 
 _HEADERS  = {"x-api-key": API_KEY, "Connection": "keep-alive"}
@@ -111,7 +111,7 @@ def _video_id(value: str, videoid: Union[bool, str] = False) -> str:
 # ── Standalone functions (direct imports) ────────────────────────────────────
 
 async def download_song(link: str) -> str:
-    """Return instant HellAPI stream URL (no download). Falls back to file on failure."""
+    """Return instant KeyaraAPI stream URL (no download). Falls back to file on failure."""
     try:
         video_id = _video_id(link)
     except ValueError:
@@ -132,7 +132,7 @@ async def download_song(link: str) -> str:
 
 
 async def download_video(link: str) -> str:
-    """Return instant HellAPI stream URL (no download). Falls back to file on failure."""
+    """Return instant KeyaraAPI stream URL (no download). Falls back to file on failure."""
     try:
         video_id = _video_id(link)
     except ValueError:
