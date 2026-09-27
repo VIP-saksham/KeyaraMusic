@@ -274,12 +274,12 @@ class Call(PyTgCalls):
         last_err = None
         for attempt in (1, 2):
             # PRE-LEAVE (Buffy fix): stale ntgcalls connection clear
-        try:
-            await assistant.leave_call(chat_id)
-        except Exception:
-            pass
+            try:
+                await assistant.leave_call(chat_id)
+            except Exception:
+                pass
 
-        try:
+            try:
                 await self._play_on_assistant(assistant, chat_id, stream)
                 last_err = None
                 break
