@@ -1,3 +1,13 @@
+# =============================================================================
+#  Copyright (c) 2026 Saksham Swaroop (@truenakshu)  |  GitHub: VIP-saksham
+#  LinkedIn: sakshamswaroop
+#
+#  All rights reserved. This source code is the private property of the
+#  author. Copying, modifying, redistributing or deploying any part of this
+#  file WITHOUT the author's written permission is strictly prohibited.
+#  For licensing / permission: https://t.me/truenakshu
+# =============================================================================
+
 import asyncio
 from logging import getLogger
 from typing import Dict, Set
@@ -18,16 +28,16 @@ from KeyaraMusic.core.mongo import mongodb
 
 ORIGINAL WORK & COPYRIGHT NOTICE
 ================================
-Original Author: Nand Yaduwanshi (@NoxxOP)
+Original Author: Saksham Swaroop (@truenakshu)
 First Commit: September 26, 2025
-Original Repository: https://github.com/NoxxOP/Music (Private)
+Original Repository: https://github.com/VIP-saksham/Music (Private)
 Original File Path: KeyaraMusic/plugins/tools/vccall.py
 
-Copyright (c) 2025 Nand Yaduwanshi (@NoxxOP)
+Copyright (c) 2026 Saksham Swaroop (@truenakshu)
 All Rights Reserved.
 
 AUTHENTICITY PROOF:
-- Original development in private repository (NoxxOP/Music)
+- Original development in private repository (VIP-saksham/Music)
 - First commit date: September 26, 2025
 - Complete commit history maintained in private repository
 - This is a refactored/cleaned version of the original work
@@ -40,13 +50,13 @@ RESTRICTIONS:
 - No part of this code may be reproduced without explicit written permission
 - Commercial use, redistribution, or derivative works are forbidden
 
-Owner: Nand Yaduwanshi
-GitHub: @NoxxOP
-Location: Supaul, Bihar, India
+Owner: Saksham Swaroop
+GitHub: @truenakshu
+GitHub: https://github.com/VIP-saksham, India
 
 LEGAL NOTICE:
 The original commit history proving authorship is maintained in the private repository.
-For licensing inquiries or to verify authenticity, contact via GitHub (@NoxxOP).
+For licensing inquiries or to verify authenticity, contact via GitHub (@truenakshu).
 Violation of this license will result in legal action.
 """
 

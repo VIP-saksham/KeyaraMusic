@@ -28,7 +28,7 @@ services:
       BOT_USERNAME:
         value: KeyaraMusicBot
       UPSTREAM_REPO:
-        value: https://github.com/NoxxOP/ShrutiMusic
+        value: https://github.com/VIP-saksham/KeyaraMusic
       STRING_SESSION:
         sync: false
       GIT_TOKEN:
@@ -40,7 +40,7 @@ services:
       LOG_GROUP_ID:
         value: -1002321189618
       SUPPORT_GROUP:
-        value: https://t.me/ShrutiBotsupport
+        value: https://t.me/TrueNakshu
       SUPPORT_CHANNEL:
         value: https://t.me/ShrutiBots
       INSTAGRAM:
@@ -48,7 +48,7 @@ services:
       YOUTUBE:
         value: https://youtube.com/@NandEditz
       GITHUB:
-        value: https://github.com/NoxxOP
+        value: https://github.com/VIP-saksham
       DONATE:
         value: https://t.me/ShrutiBots/91
       START_IMG_URL:

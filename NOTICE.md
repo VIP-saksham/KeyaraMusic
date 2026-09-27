@@ -1,9 +1,9 @@
 # Keyara Music Notice
 
-Keyara Music is a maintained rebrand and derivative work based on the original
-ShrutiMusic project by Nand Yaduwanshi (NoxxOP).
+Keyara Music is an independently maintained project by
+Saksham Swaroop (@truenakshu) — GitHub: [VIP-saksham](https://github.com/VIP-saksham).
 
-The original license, copyright notices, and attribution requirements remain
-in force. This project does not claim ownership of the original code. Keyara
-branding and the security, deployment, and maintenance changes in this
-derivative are maintained separately.
+All rights reserved. Copying, modifying, redistributing or deploying any part
+of this project without the author's written permission is strictly prohibited.
+
+For licensing / permission: https://t.me/truenakshu

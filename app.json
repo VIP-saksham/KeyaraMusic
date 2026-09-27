@@ -23,7 +23,7 @@
       "required": true
     },
     "SHRUTI_API_KEY": {
-      "description": "Get this value from Telegram bot username @ShrutiApiBot",
+      "description": "Get this value from Telegram bot username @ShrutiApiBot (key service)",
       "value": "",
       "required": true
     },
@@ -54,7 +54,7 @@
     },
     "UPSTREAM_REPO": {
       "description": "URL of your GitHub repository",
-      "value": "https://github.com/NoxxOP/ShrutiMusic",
+      "value": "https://github.com/VIP-saksham/KeyaraMusic",
       "required": false
     },
     "STRING_SESSION": {
@@ -84,27 +84,27 @@
     },
     "SUPPORT_GROUP": {
       "description": "Your support group link",
-      "value": "https://t.me/ShrutiSupportChat",
+      "value": "https://t.me/TrueNakshu",
       "required": false
     },
     "SUPPORT_CHANNEL": {
       "description": "Your support channel link",
-      "value": "https://t.me/ShrutiBots",
+      "value": "https://t.me/TrueNakshu",
       "required": false
     },
     "INSTAGRAM": {
       "description": "Your Instagram profile link or Any Link",
-      "value": "https://instagram.com/yaduwanshi_nand",
+      "value": "https://t.me/TrueNakshu",
       "required": false
     },
     "YOUTUBE": {
       "description": "Your YouTube channel link or Any Link",
-      "value": "https://youtube.com/@NandEditz",
+      "value": "https://github.com/VIP-saksham",
       "required": false
     },
     "GITHUB": {
       "description": "Your GitHub profile link or Any Link",
-      "value": "https://github.com/NoxxOP",
+      "value": "https://github.com/VIP-saksham",
       "required": false
     },
     "DONATE": {

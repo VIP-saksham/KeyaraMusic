@@ -3,14 +3,14 @@
 ░█▀▀░█▀▄░█░█░█▀▀░█▀▄░░█░░█▀▀░░█░░█▀█░█▀▄░░█░░░░█░░░░█░░█░░░█▀▀░█░█░▀▀█░█▀▀
 ░▀░░░▀░▀░▀▀▀░▀░░░▀░▀░▀▀▀░▀▀▀░░▀░░▀░▀░▀░▀░░▀░░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀▀▀
 
-Copyright (c) 2025 Nand Yaduwanshi (@NoxxOP)
-Location: Supaul, Bihar
-Email: badboy809075@gmail.com
-GitHub: https://github.com/NoxxOP
+Copyright (c) 2026 Saksham Swaroop (@truenakshu)
+GitHub: https://github.com/VIP-saksham
+Email: https://t.me/truenakshu
+GitHub: https://github.com/VIP-saksham
 
 All rights reserved.
 
-This code is the intellectual property of Nand Yaduwanshi.
+This code is the intellectual property of Saksham Swaroop.
 You are not allowed to copy, modify, redistribute, or use this
 code for commercial or personal projects without explicit permission.
 

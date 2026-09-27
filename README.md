@@ -10,7 +10,7 @@
 </p>
 
 > Keyara Music is an independent rebrand and maintained derivative of the
-> original project. Original copyright notices, license terms, and required
+
 > attribution are preserved in this repository.
 
 <div align="center">
@@ -343,7 +343,7 @@ crontab -e
 
 **𝐎𝐫𝐢𝐠𝐢𝐧𝐚𝐥 𝐃𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫**
 
-[![NoxxOP](https://img.shields.io/badge/NoxxOP-black?style=for-the-badge&logo=github)](https://github.com/NoxxOP)
+[![VIP-saksham](https://img.shields.io/badge/VIP--saksham-black?style=for-the-badge&logo=github)](https://github.com/VIP-saksham)
 
 **𝐒𝐩𝐞𝐜𝐢𝐚𝐥 𝐓𝐡𝐚𝐧𝐤𝐬 𝐭𝐨 𝐀𝐥𝐥 𝐂𝐨𝐧𝐭𝐫𝐢𝐛𝐮𝐭𝐨𝐫𝐬**
 
