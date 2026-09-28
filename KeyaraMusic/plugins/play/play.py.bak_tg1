@@ -344,32 +344,6 @@ async def play_commnd(
         if "-v" in query:
             query = query.replace("-v", "")
         try:
-            if not video:
-                from KeyaraMusic.utils.database import is_active_chat as _tg_active
-                from KeyaraMusic.utils.tgsongs import (
-                    find_audio_message as _tg_find,
-                    download_song as _tg_dl,
-                )
-                from KeyaraMusic.core.call import Nand as _tg_Nand
-                from KeyaraMusic.misc import db as _tgdb
-                _tg_client = getattr(_tg_Nand, "userbot1", None)
-                if _tg_client and not await _tg_active(chat_id):
-                    _tg_hit = await _tg_find(_tg_client, query)
-                    if _tg_hit:
-                        _tg_path = await _tg_dl(_tg_client, "", msg=_tg_hit)
-                        if _tg_path:
-                            _tgdb[chat_id] = []
-                            await Nand.join_call(
-                                chat_id, message.chat.id, _tg_path, video=None
-                            )
-                            await mystic.edit_text(
-                                f"<b>⚡ Instant Play</b> — "
-                                f"{(_tg_hit.audio.file_name or 'song')[:40]}"
-                            )
-                            return
-        except Exception:
-            pass
-        try:
             details, track_id = await YouTube.track(query)
         except:
             return await mystic.edit_text(_["play_3"])
@@ -409,23 +383,10 @@ async def play_commnd(
                 spotify=spotify,
                 forceplay=fplay,
             )
-        except Exception as _first_err:
-            # TG-library fallback: VC/API errors par channel se direct play try
-            try:
-                _tg_path = None
-                from KeyaraMusic.utils.tgsongs import download_song as _tg_dl
-                from KeyaraMusic.core.call import Nand as _tg_Nand
-                _tg_client = getattr(_tg_Nand, "userbot1", None)
-                if _tg_client:
-                    _tg_path = await _tg_dl(_tg_client, details.get("title") or details.get("name") or "")
-                if _tg_path:
-                    await Nand.join_call(chat_id, message.chat.id, _tg_path, video=None)
-                    await mystic.edit_text("<b>\u26a1 Instant Play</b> (Telegram library)")
-                    return
-            except Exception:
-                pass
-            ex_type = type(_first_err).__name__
-            err = _first_err if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
+        except Exception as e:
+            print(f"Error: {e}")
+            ex_type = type(e).__name__
+            err = e if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
             return await mystic.edit_text(err)
         await mystic.delete()
         return await play_logs(message, streamtype=streamtype)

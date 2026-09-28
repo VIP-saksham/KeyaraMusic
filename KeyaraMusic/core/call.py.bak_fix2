@@ -271,42 +271,15 @@ class Call(PyTgCalls):
         language = await get_lang(chat_id)
         _ = get_string(language)
         stream = self._build_stream(link, video=bool(video))
-        last_err = None
-        for attempt in (1, 2):
-            # PRE-LEAVE: sirf retry attempt pe (fresh join ~1s faster)
-            if attempt == 2:
-                try:
-                    await assistant.leave_call(chat_id)
-                except Exception:
-                    pass
-
-            try:
-                await self._play_on_assistant(assistant, chat_id, stream)
-                last_err = None
-                break
-            except exceptions.NoActiveGroupCall:
-                raise AssistantErr(_["call_8"])
-            except exceptions.NoAudioSourceFound:
-                raise AssistantErr(_["call_10"])
-            except (ConnectionNotFound, TelegramServerError) as e:
-                last_err = e
-                LOGGER(__name__).warning(
-                    f"join_call attempt {attempt} transient error: {type(e).__name__}: {e}")
-                # stale ntgcalls connection — leave VC, fresh join on retry
-                try:
-                    await assistant.leave_call(chat_id)
-                except Exception:
-                    pass
-                await asyncio.sleep(2 if attempt == 1 else 4)
-            except Exception as e:
-                last_err = e
-                LOGGER(__name__).warning(
-                    f"join_call attempt {attempt} error: {type(e).__name__}: {e}")
-                await asyncio.sleep(2 if attempt == 1 else 4)
-        if last_err is not None:
-            LOGGER(__name__).error(
-                f"join_call FAILED both attempts for {chat_id}: "
-                f"{type(last_err).__name__}: {last_err}")
+        try:
+            await self._play_on_assistant(assistant, chat_id, stream)
+        except exceptions.NoActiveGroupCall:
+            raise AssistantErr(_["call_8"])
+        except exceptions.NoAudioSourceFound:
+            raise AssistantErr(_["call_10"])
+        except (ConnectionNotFound, TelegramServerError):
+            raise AssistantErr(_["call_10"])
+        except Exception:
             raise AssistantErr(_["call_10"])
         await add_active_chat(chat_id)
         await music_on(chat_id)
@@ -395,7 +368,7 @@ class Call(PyTgCalls):
                 )
             except Exception:
                 return await mystic.edit_text(
-                    _["call_6"]
+                    _["call_6"], disable_web_page_preview=True
                 )
             stream = self._build_stream(file_path, video=video)
             try:

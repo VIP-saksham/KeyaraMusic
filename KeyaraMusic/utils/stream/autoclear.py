@@ -21,7 +21,9 @@ async def auto_clean(popped):
         if count == 0:
             if "vid_" not in rem or "live_" not in rem or "index_" not in rem:
                 try:
-                    os.remove(rem)
+                    from KeyaraMusic.utils.tgsongs import is_persistent as _tgp
+                    if not _tgp(os.path.abspath(rem)):
+                        os.remove(rem)
                 except:
                     pass
     except:

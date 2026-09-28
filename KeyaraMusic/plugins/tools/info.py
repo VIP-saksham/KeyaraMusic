@@ -129,7 +129,6 @@ async def userinfo(_, message):
         await message.reply_text(
             caption,
             reply_markup=types.InlineKeyboardMarkup(btn),
-            disable_web_page_preview=True,
         )
 
     except Exception as e:

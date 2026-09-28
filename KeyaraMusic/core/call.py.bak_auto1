@@ -273,13 +273,6 @@ class Call(PyTgCalls):
         stream = self._build_stream(link, video=bool(video))
         last_err = None
         for attempt in (1, 2):
-            # PRE-LEAVE: sirf retry attempt pe (fresh join ~1s faster)
-            if attempt == 2:
-                try:
-                    await assistant.leave_call(chat_id)
-                except Exception:
-                    pass
-
             try:
                 await self._play_on_assistant(assistant, chat_id, stream)
                 last_err = None
@@ -395,7 +388,7 @@ class Call(PyTgCalls):
                 )
             except Exception:
                 return await mystic.edit_text(
-                    _["call_6"]
+                    _["call_6"], disable_web_page_preview=True
                 )
             stream = self._build_stream(file_path, video=video)
             try:

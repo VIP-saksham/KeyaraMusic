@@ -99,14 +99,12 @@ async def process_members(chat_id, members, text=None, replied=None):
                 if replied:
                     await replied.reply_text(
                         usertxt,
-                        disable_web_page_preview=True,
                         parse_mode=ParseMode.MARKDOWN
                     )
                 else:
                     await app.send_message(
                         chat_id,
                         f"{text}\n{usertxt}",
-                        disable_web_page_preview=True,
                         parse_mode=ParseMode.MARKDOWN
                     )
                 await asyncio.sleep(2)  # Reduced sleep time to 2 seconds
@@ -125,14 +123,12 @@ async def process_members(chat_id, members, text=None, replied=None):
             if replied:
                 await replied.reply_text(
                     usertxt,
-                    disable_web_page_preview=True,
                     parse_mode=ParseMode.MARKDOWN
                 )
             else:
                 await app.send_message(
                     chat_id,
                     f"{text}\n\n{usertxt}",
-                    disable_web_page_preview=True,
                     parse_mode=ParseMode.MARKDOWN
                 )
         except Exception as e:

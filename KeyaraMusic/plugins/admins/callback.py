@@ -72,7 +72,6 @@ async def fork_repo_callback(client, query):
             "ғᴏʀᴋ ᴛʜᴇ ʀᴇᴘᴏ ᴀɴᴅ ᴅᴇᴘʟᴏʏ ɪɴ sᴇᴄᴏɴᴅs.\n\n"
             "🔧 <b>Cᴜsᴛᴏᴍɪᴢᴇ ɪᴛ. Dᴇᴘʟᴏʏ ɪᴛ. Vɪʙᴇ ᴡɪᴛʜ ɪᴛ 🔥</b>"
         ),
-        disable_web_page_preview=True,
         reply_markup=InlineKeyboardMarkup(
             [
                 [
@@ -468,7 +467,7 @@ async def del_back_playlist(client, CallbackQuery, _):
         
         elif "vid_" in queued:
             mystic = await CallbackQuery.message.reply_text(
-                _["call_7"], disable_web_page_preview=True
+                _["call_7"]
             )
             try:
                 file_path, direct = await YouTube.download(

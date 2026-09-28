@@ -8,9 +8,6 @@
 #  For licensing / permission: https://t.me/truenakshu
 # =============================================================================
 
-from dotenv import load_dotenv
-load_dotenv(override=True)  # .env file wins over stale shell env (port fix)
-
 import asyncio
 
 try:

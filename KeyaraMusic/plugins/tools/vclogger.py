@@ -132,7 +132,7 @@ async def vclogger_command(_, message: Message):
             f"📌 <b>Current VC Logging State:</b> <b>{current_state_ui}</b>\n"
             f"Use {prefix_ui} <b>[on/enable/yes | off/disable/no]</b>"
         )
-        await message.reply(text, disable_web_page_preview=True)
+        await message.reply(text)
     elif len(args) == 2:
         arg = args[1].lower()
         if arg in ["on", "enable", "yes"]:
@@ -140,7 +140,6 @@ async def vclogger_command(_, message: Message):
             await save_vc_logger_status(chat_id, True)
             await message.reply(
                 f"✅ <b>VC logging ENABLED</b> (Current State: <b>{to_small_caps(str(vc_logging_status[chat_id]))}</b>)",
-                disable_web_page_preview=True
             )
             asyncio.create_task(check_and_monitor_vc(chat_id))
         elif arg in ["off", "disable", "no"]:
@@ -148,14 +147,12 @@ async def vclogger_command(_, message: Message):
             await save_vc_logger_status(chat_id, False)
             await message.reply(
                 f"🚫 <b>VC logging DISABLED</b> (Current State: <b>{to_small_caps(str(vc_logging_status[chat_id]))}</b>)",
-                disable_web_page_preview=True
             )
             active_vc_chats.discard(chat_id)
             vc_active_users.pop(chat_id, None)
         else:
             await message.reply(
                 f"❌ Invalid argument! Use <b>[on/enable/yes | off/disable/no]</b>",
-                disable_web_page_preview=True
             )
 
 async def get_group_call_participants(userbot, peer):

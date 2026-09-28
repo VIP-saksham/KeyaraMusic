@@ -94,7 +94,7 @@ async def tag_users(chat_id, messages, tag_type):
         mention = f"<b><a href='tg://user?id={user.id}'>{user.first_name}</a></b>"
         msg = random.choice(messages).format(mention=mention)
         
-        await app.send_message(chat_id, msg, disable_web_page_preview=True)
+        await app.send_message(chat_id, msg)
         await asyncio.sleep(3)
     
     active_chats.pop(chat_id, None)

@@ -117,7 +117,6 @@ async def mood_pick(client, cb: CallbackQuery):
                     user,
                 ),
                 reply_markup=InlineKeyboardMarkup(stream_markup(_, chat_id)),
-                disable_web_page_preview=True,
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "stream"
@@ -141,7 +140,6 @@ async def mood_pick(client, cb: CallbackQuery):
             _["mood_3"].format(
                 MOOD_EMOJIS.get(mood, "🎵"), mood.title(), lines, len(q)
             ),
-            disable_web_page_preview=True,
         )
     except Exception:
         pass

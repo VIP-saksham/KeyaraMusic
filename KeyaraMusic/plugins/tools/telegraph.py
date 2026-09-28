@@ -64,7 +64,6 @@ async def get_link_group(client, message):
             if success:
                 await text.edit_text(
                     f"🌐 | <a href='{upload_url}'>👉 ʏᴏᴜʀ ʟɪɴᴋ ᴛᴀᴘ ʜᴇʀᴇ 👈</a>",
-                    disable_web_page_preview=False,
                     reply_markup=InlineKeyboardMarkup(
                         [[InlineKeyboardButton("🌍 ᴘʀᴇss ᴀɴᴅ ʜᴏʟᴅ ᴛᴏ ᴠɪᴇᴡ", url=upload_url)]]
                     ),

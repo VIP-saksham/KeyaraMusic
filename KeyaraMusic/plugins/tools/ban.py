@@ -459,12 +459,10 @@ async def pin(_, message: Message):
         await r.unpin()
         return await message.reply_text(
             f"ᴜɴᴘɪɴɴᴇᴅ [ᴛʜɪs]({r.link}) ᴍᴇssᴀɢᴇ.",
-            disable_web_page_preview=True,
         )
     await r.pin(disable_notification=True)
     await message.reply(
         f"ᴘɪɴɴᴇᴅ [ᴛʜɪs]({r.link}) ᴍᴇssᴀɢᴇ.",
-        disable_web_page_preview=True,
     )
     msg = "ᴘʟᴇᴀsᴇ ᴄʜᴇᴄᴋ ᴛʜᴇ ᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ: ~ " + f"[Check, {r.link}]"
     filter_ = dict(type="text", data=msg)

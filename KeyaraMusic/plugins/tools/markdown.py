@@ -35,7 +35,7 @@ async def mkdwnhelp(_, m: Message):
         )
     else:
         await m.reply(
-            MARKDOWN, parse_mode=ParseMode.HTML, disable_web_page_preview=True
+            MARKDOWN, parse_mode=ParseMode.HTML
         )
     return
 

@@ -37,7 +37,6 @@ async def privacy(client, message: Message):
         TEXT, 
         reply_markup=keyboard, 
         parse_mode=ParseMode.MARKDOWN, 
-        disable_web_page_preview=True
     )
 
 
