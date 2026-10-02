@@ -154,8 +154,7 @@ async def stream(
         current_queue = db.get(chat_id)
 
         
-        if current_queue is not None and len(current_queue) >= 10:
-            return await app.send_message(original_chat_id, "You can't add more than 10 songs to the queue.")
+# queue UNLIMITED: kitna bhi songs add karo (no cap)
 
         try:
             file_path = None
@@ -166,7 +165,7 @@ async def stream(
                 )
                 from KeyaraMusic.core.call import Nand as _tg_Nand
                 _tg_client = getattr(_tg_Nand, "userbot1", None)
-                if _tg_client:
+                if _tg_client and not status:
                     _tg_path = await _tg_cached((title or vidid)) or await _tg_dl(
                         _tg_client, (title or vidid)
                     )

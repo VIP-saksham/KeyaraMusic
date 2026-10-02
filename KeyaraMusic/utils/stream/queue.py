@@ -15,12 +15,40 @@ from KeyaraMusic.misc import db
 from KeyaraMusic.utils.formatters import check_duration, seconds_to_min
 from config import autoclean, time_to_seconds
 
-# --- next-song precache: queue add hote hi BG download (super fast) ---
+# --- next-song precache: queue add hote hi BG download/warm (super fast) ---
 _PRECACHE_SEM = asyncio.Semaphore(2)
 _precache_seen = set()
 
 
-async def _precache_download(title, vidid):
+async def _precache_api(vidid, kind):
+    """API cache warm — /api/stream extract+archive BG me kar deta hai,
+    isliye turn aane tak video/audio URL instant milta hai."""
+    try:
+        import aiohttp
+        from KeyaraMusic.platforms.Youtube import API_URL as _au
+        from KeyaraMusic.platforms.Youtube import API_KEY as _ak
+        vid = str(vidid or '').strip()
+        if not _au or not _ak or len(vid) != 11:
+            return
+        to = aiohttp.ClientTimeout(total=150, connect=10)
+        async with aiohttp.ClientSession(timeout=to) as _ses:
+            async with _ses.get(
+                f'{_au}/api/stream',
+                params={
+                    'url': f'https://www.youtube.com/watch?v={vid}',
+                    'type': kind,
+                    'api_key': _ak,
+                },
+            ) as _r:
+                await _r.read()
+    except Exception:
+        pass
+
+
+async def _precache_download(title, vidid, is_video=False):
+    if is_video:
+        await _precache_api(vidid, 'video')
+        return
     q = str(title or vidid or '').strip()
     if not q:
         return
@@ -33,12 +61,14 @@ async def _precache_download(title, vidid):
         client = getattr(_tg_Nand, 'userbot1', None)
         if not client or await _tg_cached(q):
             return
-        await asyncio.wait_for(_tg_dl(client, q), timeout=180)
+        got = await asyncio.wait_for(_tg_dl(client, q), timeout=180)
+        if not got:
+            await _precache_api(vidid, 'audio')
     except Exception:
         pass
 
 
-def _spawn_precache(title, vidid):
+def _spawn_precache(title, vidid, is_video=False):
     q = str(title or vidid or '').strip().lower()
     if not q or q in _precache_seen:
         return
@@ -46,7 +76,9 @@ def _spawn_precache(title, vidid):
         _precache_seen.clear()
     _precache_seen.add(q)
     try:
-        asyncio.get_running_loop().create_task(_precache_download(title, vidid))
+        asyncio.get_running_loop().create_task(
+            _precache_download(title, vidid, bool(is_video))
+        )
     except Exception:
         pass
 
@@ -91,7 +123,7 @@ async def put_queue(
     else:
         db[chat_id].append(put)
     if len(db.get(chat_id) or []) > 1:
-        _spawn_precache(title, vidid)
+        _spawn_precache(title, vidid, stream == "video")
     autoclean.append(file)
 
 
