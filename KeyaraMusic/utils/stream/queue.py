@@ -15,6 +15,42 @@ from KeyaraMusic.misc import db
 from KeyaraMusic.utils.formatters import check_duration, seconds_to_min
 from config import autoclean, time_to_seconds
 
+# --- next-song precache: queue add hote hi BG download (super fast) ---
+_PRECACHE_SEM = asyncio.Semaphore(2)
+_precache_seen = set()
+
+
+async def _precache_download(title, vidid):
+    q = str(title or vidid or '').strip()
+    if not q:
+        return
+    try:
+        from KeyaraMusic.core.call import Nand as _tg_Nand
+        from KeyaraMusic.utils.tgsongs import (
+            download_song as _tg_dl,
+            get_cached as _tg_cached,
+        )
+        client = getattr(_tg_Nand, 'userbot1', None)
+        if not client or await _tg_cached(q):
+            return
+        await asyncio.wait_for(_tg_dl(client, q), timeout=180)
+    except Exception:
+        pass
+
+
+def _spawn_precache(title, vidid):
+    q = str(title or vidid or '').strip().lower()
+    if not q or q in _precache_seen:
+        return
+    if len(_precache_seen) > 2000:
+        _precache_seen.clear()
+    _precache_seen.add(q)
+    try:
+        asyncio.get_running_loop().create_task(_precache_download(title, vidid))
+    except Exception:
+        pass
+
+
 
 async def put_queue(
     chat_id,
@@ -54,6 +90,8 @@ async def put_queue(
             db[chat_id].append(put)
     else:
         db[chat_id].append(put)
+    if len(db.get(chat_id) or []) > 1:
+        _spawn_precache(title, vidid)
     autoclean.append(file)
 
 

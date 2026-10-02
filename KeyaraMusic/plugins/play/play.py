@@ -351,11 +351,22 @@ async def play_commnd(
                 from KeyaraMusic.utils.tgsongs import (
                     find_audio_message as _tg_find,
                     download_song as _tg_dl,
+                    get_cached as _tg_cached,
                 )
                 from KeyaraMusic.core.call import Nand as _tg_Nand
                 from KeyaraMusic.misc import db as _tgdb
                 _tg_client = getattr(_tg_Nand, "userbot1", None)
                 if _tg_client and not await _tg_active(chat_id):
+                    _tg_path0 = await _tg_cached(query)
+                    if _tg_path0:
+                        _tgdb[chat_id] = []
+                        await Nand.join_call(
+                            chat_id, message.chat.id, _tg_path0, video=None
+                        )
+                        await mystic.edit_text(
+                            f"<b>⚡ Instant Play</b> — {str(_tg_path0).rsplit('/', 1)[-1][:40]}"
+                        )
+                        return
                     _tg_hit = await _aio.wait_for(_tg_find(_tg_client, query), timeout=15)
                     if _tg_hit:
                         _tg_path = await _aio.wait_for(

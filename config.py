@@ -30,8 +30,8 @@ GITHUB = os.getenv("GITHUB", "https://github.com/VIP-saksham")
 DONATE = os.getenv("DONATE", "https://t.me/TheHellBots/1")
 PRIVACY_LINK = os.getenv("PRIVACY_LINK", "https://graph.org/Privacy-Policy-09-19-185")
 
-DURATION_LIMIT_MIN = int(os.getenv("DURATION_LIMIT", 300))
-PLAYLIST_FETCH_LIMIT = int(os.getenv("PLAYLIST_FETCH_LIMIT", 25))
+DURATION_LIMIT_MIN = int(os.getenv("DURATION_LIMIT", 10080))
+PLAYLIST_FETCH_LIMIT = int(os.getenv("PLAYLIST_FETCH_LIMIT", 200))
 
 TG_AUDIO_FILESIZE_LIMIT = int(os.getenv("TG_AUDIO_FILESIZE_LIMIT", 104857600))
 TG_VIDEO_FILESIZE_LIMIT = int(os.getenv("TG_VIDEO_FILESIZE_LIMIT", 2145386496))

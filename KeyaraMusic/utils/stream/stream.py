@@ -160,11 +160,16 @@ async def stream(
         try:
             file_path = None
             try:
-                from KeyaraMusic.utils.tgsongs import download_song as _tg_dl
+                from KeyaraMusic.utils.tgsongs import (
+                    download_song as _tg_dl,
+                    get_cached as _tg_cached,
+                )
                 from KeyaraMusic.core.call import Nand as _tg_Nand
                 _tg_client = getattr(_tg_Nand, "userbot1", None)
                 if _tg_client:
-                    _tg_path = await _tg_dl(_tg_client, (title or vidid))
+                    _tg_path = await _tg_cached((title or vidid)) or await _tg_dl(
+                        _tg_client, (title or vidid)
+                    )
                     if _tg_path:
                         file_path, direct = _tg_path, True
             except Exception as _tg_e:
