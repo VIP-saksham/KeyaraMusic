@@ -94,7 +94,7 @@ def stream_markup(_, chat_id):
             InlineKeyboardButton(text="‣‣I", callback_data=f"ADMIN Skip|{chat_id}"),
             InlineKeyboardButton(text="▢", callback_data=f"ADMIN Stop|{chat_id}"),
         ],
-        [InlineKeyboardButton(text="⚡ ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴋᴇʏᴀʀᴀᴀᴘɪ", url="https://vip-saksham.github.io/api/")],
+        [InlineKeyboardButton(text="⚡ ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴋᴇʏᴀʀᴀᴀᴘɪ", url="https://keyaraapi.pages.dev/")],
         [InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close")],
     ]
     return buttons
