@@ -16,6 +16,7 @@
 #  normal YouTube/API path par fallback karta hai.
 #
 
+import asyncio
 import json
 import os
 import re
@@ -165,6 +166,19 @@ async def download_song(
 
         got = await client.download_media(msg, file_name=path)
         if got and os.path.getsize(got) > 0:
+            # Cover-art (mjpeg) strip: NTgCalls embedded-art mp3 pe NoAudioSourceFound deta hai
+            try:
+                import asyncio as _aio
+                proc = await _aio.create_subprocess_exec(
+                    "ffmpeg", "-y", "-i", got, "-vn", "-c:a", "copy",
+                    got + ".clean.mp3",
+                    stdout=asyncio.subprocess.DEVNULL,
+                    stderr=asyncio.subprocess.DEVNULL,
+                )
+                if await proc.wait() == 0 and os.path.getsize(got + ".clean.mp3") > 0:
+                    os.replace(got + ".clean.mp3", got)
+            except Exception as _ff_e:
+                _LOG.warning(f"tgsongs: cover-strip skipped: {_ff_e}")
             _LOG.info(f"tgsongs: downloaded — {safe_name}")
             _PERSISTENT.add(os.path.abspath(got))
             _qmap[_map_key(query)] = safe_name

@@ -15,6 +15,7 @@ from typing import Union
 
 from ntgcalls import ConnectionNotFound, TelegramServerError
 from pyrogram import Client
+from pyrogram.errors import FloodWait
 from pyrogram.types import InlineKeyboardMarkup
 from pytgcalls import PyTgCalls, exceptions, types
 from pytgcalls.pytgcalls_session import PyTgCallsSession
@@ -270,34 +271,57 @@ class Call(PyTgCalls):
         assistant = await group_assistant(self, chat_id)
         language = await get_lang(chat_id)
         _ = get_string(language)
-        stream = self._build_stream(link, video=bool(video))
         last_err = None
-        for attempt in (1, 2):
-            # PRE-LEAVE: sirf retry attempt pe (fresh join ~1s faster)
-            if attempt == 2:
+        for attempt in (1, 2, 3):
+            # PRE-LEAVE: retry attempts pe (stale ntgcalls connection reset)
+            if attempt > 1:
                 try:
                     await assistant.leave_call(chat_id)
                 except Exception:
                     pass
+                await asyncio.sleep(1 if attempt == 2 else 2)
 
             try:
-                await self._play_on_assistant(assistant, chat_id, stream)
+                stream = self._build_stream(link, video=bool(video))
+                await asyncio.wait_for(
+                    self._play_on_assistant(assistant, chat_id, stream),
+                    timeout=90 if attempt == 1 else 45,
+                )
                 last_err = None
                 break
             except exceptions.NoActiveGroupCall:
                 raise AssistantErr(_["call_8"])
-            except exceptions.NoAudioSourceFound:
+            except exceptions.NoAudioSourceFound as e:
+                src = str(link)
+                if "/relay/" in src:
+                    # Relay expire -> ?refresh=1 ke saath self-heal retry
+                    LOGGER(__name__).warning(
+                        f"join_call relay NoAudioSourceFound for {chat_id}"
+                        f" (attempt {attempt}) - refresh retry | src={src[:110]}")
+                    sep = "&" if "?" in src else "?"
+                    if "refresh=" not in src:
+                        link = f"{src}{sep}refresh=1"
+                    last_err = e
+                    await asyncio.sleep(4 if attempt == 1 else 8)
+                    continue
+                LOGGER(__name__).error(
+                    f"join_call NoAudioSourceFound for {chat_id}: {e} | src={src[:120]}")
                 raise AssistantErr(_["call_10"])
+            except FloodWait as e:
+                last_err = e
+                wait_s = min(int(getattr(e, "value", 0) or 0) + 1, 60)
+                LOGGER(__name__).warning(
+                    f"join_call attempt {attempt} FloodWait: sleeping {wait_s}s")
+                await asyncio.sleep(wait_s)
             except (ConnectionNotFound, TelegramServerError) as e:
                 last_err = e
                 LOGGER(__name__).warning(
                     f"join_call attempt {attempt} transient error: {type(e).__name__}: {e}")
-                # stale ntgcalls connection — leave VC, fresh join on retry
-                try:
-                    await assistant.leave_call(chat_id)
-                except Exception:
-                    pass
                 await asyncio.sleep(2 if attempt == 1 else 4)
+            except (asyncio.TimeoutError, TimeoutError) as e:
+                last_err = e
+                LOGGER(__name__).warning(
+                    f"join_call attempt {attempt} timeout - leave+retry (ntgcalls reset)")
             except Exception as e:
                 last_err = e
                 LOGGER(__name__).warning(
@@ -305,7 +329,7 @@ class Call(PyTgCalls):
                 await asyncio.sleep(2 if attempt == 1 else 4)
         if last_err is not None:
             LOGGER(__name__).error(
-                f"join_call FAILED both attempts for {chat_id}: "
+                f"join_call FAILED for {chat_id} after retries: "
                 f"{type(last_err).__name__}: {last_err}")
             raise AssistantErr(_["call_10"])
         await add_active_chat(chat_id)

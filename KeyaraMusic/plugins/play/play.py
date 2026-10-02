@@ -345,6 +345,8 @@ async def play_commnd(
             query = query.replace("-v", "")
         try:
             if not video:
+                import asyncio as _aio
+                from KeyaraMusic.logging import LOGGER as _LG
                 from KeyaraMusic.utils.database import is_active_chat as _tg_active
                 from KeyaraMusic.utils.tgsongs import (
                     find_audio_message as _tg_find,
@@ -354,9 +356,10 @@ async def play_commnd(
                 from KeyaraMusic.misc import db as _tgdb
                 _tg_client = getattr(_tg_Nand, "userbot1", None)
                 if _tg_client and not await _tg_active(chat_id):
-                    _tg_hit = await _tg_find(_tg_client, query)
+                    _tg_hit = await _aio.wait_for(_tg_find(_tg_client, query), timeout=15)
                     if _tg_hit:
-                        _tg_path = await _tg_dl(_tg_client, "", msg=_tg_hit)
+                        _tg_path = await _aio.wait_for(
+                            _tg_dl(_tg_client, "", msg=_tg_hit), timeout=60)
                         if _tg_path:
                             _tgdb[chat_id] = []
                             await Nand.join_call(
@@ -367,8 +370,13 @@ async def play_commnd(
                                 f"{(_tg_hit.audio.file_name or 'song')[:40]}"
                             )
                             return
-        except Exception:
-            pass
+        except Exception as _tg_err:
+            try:
+                from KeyaraMusic.logging import LOGGER as _LG2
+                _LG2("KeyaraMusic.plugins.play").warning(
+                    f"library-first skipped: {type(_tg_err).__name__}: {_tg_err}")
+            except Exception:
+                pass
         try:
             details, track_id = await YouTube.track(query)
         except:
