@@ -196,84 +196,69 @@ class Userbot(Client):
         bot_username = await self.get_bot_username_from_token(config.BOT_TOKEN)
 
         if config.STRING1:
-            await self.one.start()
-            assistants.append(1)
             try:
-                pass
-            except:
-                LOGGER(__name__).error(
-                    "Assistant Account 1 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin!"
-                )
-                exit()
-            self.one.id = self.one.me.id
-            self.one.name = self.one.me.mention
-            self.one.username = self.one.me.username
-            assistantids.append(self.one.id)
-            LOGGER(__name__).info(f"Assistant Started as {self.one.name}")
+                await self.one.start()
+            except Exception as e:
+                LOGGER(__name__).error(f"Assistant 1 start FAILED (session revoked/invalid?) - skipping: {type(e).__name__}: {e}")
+            else:
+                assistants.append(1)
+                self.one.id = self.one.me.id
+                self.one.name = self.one.me.mention
+                self.one.username = self.one.me.username
+                assistantids.append(self.one.id)
+                LOGGER(__name__).info(f"Assistant Started as {self.one.name}")
 
         if config.STRING2:
-            await self.two.start()
-            assistants.append(2)
             try:
-                pass
-            except:
-                LOGGER(__name__).error(
-                    "Assistant Account 2 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin!"
-                )
-                exit()
-            self.two.id = self.two.me.id
-            self.two.name = self.two.me.mention
-            self.two.username = self.two.me.username
-            assistantids.append(self.two.id)
-            LOGGER(__name__).info(f"Assistant Two Started as {self.two.name}")
+                await self.two.start()
+            except Exception as e:
+                LOGGER(__name__).error(f"Assistant 2 start FAILED (session revoked/invalid?) - skipping: {type(e).__name__}: {e}")
+            else:
+                assistants.append(2)
+                self.two.id = self.two.me.id
+                self.two.name = self.two.me.mention
+                self.two.username = self.two.me.username
+                assistantids.append(self.two.id)
+                LOGGER(__name__).info(f"Assistant Two Started as {self.two.name}")
 
         if config.STRING3:
-            await self.three.start()
-            assistants.append(3)
             try:
-                pass
-            except:
-                LOGGER(__name__).error(
-                    "Assistant Account 3 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin!"
-                )
-                exit()
-            self.three.id = self.three.me.id
-            self.three.name = self.three.me.mention
-            self.three.username = self.three.me.username
-            assistantids.append(self.three.id)
-            LOGGER(__name__).info(f"Assistant Three Started as {self.three.name}")
+                await self.three.start()
+            except Exception as e:
+                LOGGER(__name__).error(f"Assistant 3 start FAILED (session revoked/invalid?) - skipping: {type(e).__name__}: {e}")
+            else:
+                assistants.append(3)
+                self.three.id = self.three.me.id
+                self.three.name = self.three.me.mention
+                self.three.username = self.three.me.username
+                assistantids.append(self.three.id)
+                LOGGER(__name__).info(f"Assistant Three Started as {self.three.name}")
 
         if config.STRING4:
-            await self.four.start()
-            assistants.append(4)
             try:
-                pass
-            except:
-                LOGGER(__name__).error(
-                    "Assistant Account 4 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin!"
-                )
-                exit()
-            self.four.id = self.four.me.id
-            self.four.name = self.four.me.mention
-            self.four.username = self.four.me.username
-            assistantids.append(self.four.id)
-            LOGGER(__name__).info(f"Assistant Four Started as {self.four.name}")
+                await self.four.start()
+            except Exception as e:
+                LOGGER(__name__).error(f"Assistant 4 start FAILED (session revoked/invalid?) - skipping: {type(e).__name__}: {e}")
+            else:
+                assistants.append(4)
+                self.four.id = self.four.me.id
+                self.four.name = self.four.me.mention
+                self.four.username = self.four.me.username
+                assistantids.append(self.four.id)
+                LOGGER(__name__).info(f"Assistant Four Started as {self.four.name}")
 
         if config.STRING5:
-            await self.five.start()
-            assistants.append(5)
             try:
-                pass
-            except:
-                LOGGER(__name__).error(
-                    "Assistant Account 5 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin!"
-                )
-                exit()
-            self.five.id = self.five.me.id
-            self.five.name = self.five.me.mention
-            self.five.username = self.five.me.username
-            assistantids.append(self.five.id)
-            LOGGER(__name__).info(f"Assistant Five Started as {self.five.name}")
+                await self.five.start()
+            except Exception as e:
+                LOGGER(__name__).error(f"Assistant 5 start FAILED (session revoked/invalid?) - skipping: {type(e).__name__}: {e}")
+            else:
+                assistants.append(5)
+                self.five.id = self.five.me.id
+                self.five.name = self.five.me.mention
+                self.five.username = self.five.me.username
+                assistantids.append(self.five.id)
+                LOGGER(__name__).info(f"Assistant Five Started as {self.five.name}")
 
         if bot_username:
             await self.send_help_message(bot_username)

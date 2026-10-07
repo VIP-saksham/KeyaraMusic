@@ -531,16 +531,19 @@ class Call(PyTgCalls):
 
     async def start(self):
         LOGGER(__name__).info("Starting PyTgCalls Client...\n")
-        if config.STRING1:
-            await self.one.start()
-        if config.STRING2:
-            await self.two.start()
-        if config.STRING3:
-            await self.three.start()
-        if config.STRING4:
-            await self.four.start()
-        if config.STRING5:
-            await self.five.start()
+        for label, enabled, client in [
+            ("1", config.STRING1, self.one),
+            ("2", config.STRING2, self.two),
+            ("3", config.STRING3, self.three),
+            ("4", config.STRING4, self.four),
+            ("5", config.STRING5, self.five),
+        ]:
+            if not enabled:
+                continue
+            try:
+                await client.start()
+            except Exception as e:
+                LOGGER(__name__).error(f"PyTgCalls assistant {label} start FAILED (session revoked/invalid?) - skipping: {type(e).__name__}: {e}")
 
     async def decorators(self):
         for string, client in [
